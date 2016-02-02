@@ -666,8 +666,8 @@
               } else g = t;
               m(), n.trigger("image-updated")
             })
-          }, t.onerror = function() {
-            n.trigger("load-error")
+          }, t.onerror = function(e) {
+            n.trigger("load-error", [e])
           }, n.trigger("load-start"), t.src = e
         }
       }, this.setMaxDimensions = function(e, t) {

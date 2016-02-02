@@ -235,8 +235,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             events.trigger('image-updated');
           });
         };
-        newImage.onerror = function() {
-          events.trigger('load-error');
+        newImage.onerror = function(error) {
+          events.trigger('load-error', [error]);
         };
         events.trigger('load-start');
         newImage.src = imageSource;
