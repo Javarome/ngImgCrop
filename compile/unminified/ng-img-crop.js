@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, February 2nd, 2016, 11:12:11 AM
+ * Generated at Tuesday, February 2nd, 2016, 11:16:14 AM
  */
 (function() {
 'use strict';
@@ -978,31 +978,38 @@ crop.service('cropEXIF', ['$log', function ($log) {
       length = file.byteLength,
       marker;
 
+    function readByte() {
+      var someByte = dataView.getUint8(offset);
+      offset++;
+      return someByte;
+    }
+
+    function readWord() {
+      var someWord = dataView.getUint16(offset);
+      offset = offset + 2;
+      return someWord;
+    }
     while (offset < length) {
-      if (dataView.getUint8(offset) != 0xFF) {
-        $log.error('Not a valid marker at offset ' + offset + ", found: " + dataView.getUint8(offset));
+      var someByte = readByte();
+      if (someByte != 0xFF) {
+        $log.error('Not a valid marker at offset ' + offset + ", found: " + someByte);
         return false; // not a valid marker, something is wrong
       }
-
-      marker = dataView.getUint8(offset + 1);
+      marker = readByte();
       $log.debug('Marker=%o', marker);
 
       // we could implement handling for other markers here,
       // but we're only looking for 0xFFE1 for EXIF data
 
+      var segmentLength = readWord();
       if (marker == 225) {
-        $log.debug('Found APP1 marker');
-
-        return readEXIFData(dataView, offset + 4, dataView.getUint16(offset + 2) - 2);
-
+        $log.debug('Found EXIF (APP1) marker');
+        return readEXIFData(dataView, offset, segmentLength - 2);
         // offset += 2 + file.getShortAt(offset+2, true);
-
       } else {
-        offset += 2 + dataView.getUint16(offset + 2);
+        offset += segmentLength;
       }
-
     }
-
   }
 
   function findIPTCinJPEG(file) {

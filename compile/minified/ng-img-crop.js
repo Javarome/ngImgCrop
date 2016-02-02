@@ -85,12 +85,12 @@
         a = n > h ? this._posResizeStartSize + h : this._posResizeStartSize + n;
         var c = this._size;
         this._size = Math.max(this._minSize, a);
-        var g = (this._size - c) / 2;
-        this._x += g * s, this._y += g * o, this._resizeCtrlIsHover = this._resizeCtrlIsDragging, r = !0, this._events.trigger("area-resize")
+        var u = (this._size - c) / 2;
+        this._x += u * s, this._y += u * o, this._resizeCtrlIsHover = this._resizeCtrlIsDragging, r = !0, this._events.trigger("area-resize")
       } else {
-        var u = this._isCoordWithinResizeCtrl([e, t]);
-        if (u > -1) {
-          switch (u) {
+        var g = this._isCoordWithinResizeCtrl([e, t]);
+        if (g > -1) {
+          switch (g) {
             case 0:
               i = "nwse-resize";
               break;
@@ -103,7 +103,7 @@
             case 3:
               i = "nwse-resize"
           }
-          this._areaIsHover = !1, this._resizeCtrlIsHover = u, r = !0
+          this._areaIsHover = !1, this._resizeCtrlIsHover = g, r = !0
         } else this._isCoordWithinArea([e, t]) && (i = "move", this._areaIsHover = !0, r = !0)
       }
       return this._dontDragOutside(), angular.element(this._ctx.canvas).css({cursor: i}), r
@@ -158,17 +158,17 @@
       moveIconFill: "#fff"
     };
     return function(c) {
-      var g = function(e, t, i) {
+      var u = function(e, t, i) {
         return [i * e[0] + t[0], i * e[1] + t[1]]
-      }, u = function(e, t, i, r) {
+      }, g = function(e, t, i, r) {
         c.save(), c.fillStyle = t, c.beginPath();
-        var s, o = g(e[0], i, r);
+        var s, o = u(e[0], i, r);
         c.moveTo(o[0], o[1]);
-        for (var a in e)a > 0 && (s = g(e[a], i, r), c.lineTo(s[0], s[1]));
+        for (var a in e)a > 0 && (s = u(e[a], i, r), c.lineTo(s[0], s[1]));
         c.lineTo(o[0], o[1]), c.fill(), c.closePath(), c.restore()
       };
       this.drawIconMove = function(e, t) {
-        u(s, h.moveIconFill, e, t), u(o, h.moveIconFill, e, t), u(a, h.moveIconFill, e, t), u(n, h.moveIconFill, e, t)
+        g(s, h.moveIconFill, e, t), g(o, h.moveIconFill, e, t), g(a, h.moveIconFill, e, t), g(n, h.moveIconFill, e, t)
       }, this.drawIconResizeCircle = function(e, t, i) {
         var r = t * i;
         c.save(), c.strokeStyle = h.resizeCircleStroke, c.lineWidth = 2, c.fillStyle = h.resizeCircleFill, c.beginPath(), c.arc(e[0], e[1], r, 0, 2 * Math.PI), c.fill(), c.stroke(), c.closePath(), c.restore()
@@ -176,9 +176,9 @@
         var r = t * i;
         c.save(), c.strokeStyle = h.resizeBoxStroke, c.lineWidth = 2, c.fillStyle = h.resizeBoxFill, c.fillRect(e[0] - r / 2, e[1] - r / 2, r, r), c.strokeRect(e[0] - r / 2, e[1] - r / 2, r, r), c.restore()
       }, this.drawIconResizeBoxNESW = function(e, r, s) {
-        this.drawIconResizeBoxBase(e, r, s), u(t, h.resizeBoxArrowFill, e, s), u(i, h.resizeBoxArrowFill, e, s)
+        this.drawIconResizeBoxBase(e, r, s), g(t, h.resizeBoxArrowFill, e, s), g(i, h.resizeBoxArrowFill, e, s)
       }, this.drawIconResizeBoxNWSE = function(t, i, s) {
-        this.drawIconResizeBoxBase(t, i, s), u(e, h.resizeBoxArrowFill, t, s), u(r, h.resizeBoxArrowFill, t, s)
+        this.drawIconResizeBoxBase(t, i, s), g(e, h.resizeBoxArrowFill, t, s), g(r, h.resizeBoxArrowFill, t, s)
       }, this.drawCropArea = function(e, t, i, r) {
         var s = e.width / c.canvas.width, o = e.height / c.canvas.height, a = t[0] - i / 2, n = t[1] - i / 2;
         c.save(), c.strokeStyle = h.areaOutline, c.lineWidth = 2, c.beginPath(), r(c, t, i), c.stroke(), c.clip(), i > 0 && c.drawImage(e, a * s, n * o, i * s, i * o, a, n, i, i), c.beginPath(), r(c, t, i), c.stroke(), c.clip(), c.restore()
@@ -219,11 +219,11 @@
           c.readAsArrayBuffer(e)
         })
       } else {
-        var g = new XMLHttpRequest;
-        g.onload = function() {
+        var u = new XMLHttpRequest;
+        u.onload = function() {
           if (200 != this.status && 0 !== this.status)throw"Could not load image";
-          n(g.response), g = null
-        }, g.open("GET", t.src, !0), g.responseType = "arraybuffer", g.send(null)
+          n(u.response), u = null
+        }, u.open("GET", t.src, !0), u.responseType = "arraybuffer", u.send(null)
       } else if (window.FileReader && (t instanceof window.Blob || t instanceof window.File)) {
         var c = new FileReader;
         c.onload = function(t) {
@@ -233,12 +233,25 @@
     }
 
     function o(t) {
-      var i = new DataView(t);
-      if (e.debug("findEXIFinJPEG: Got file of length %o", t.byteLength), 255 != i.getUint8(0) || 216 != i.getUint8(1))return e.error("Not a valid JPEG"), !1;
-      for (var r, s = 2, o = t.byteLength; o > s;) {
-        if (255 != i.getUint8(s))return e.error("Not a valid marker at offset " + s + ", found: " + i.getUint8(s)), !1;
-        if (r = i.getUint8(s + 1), e.debug("Marker=%o", r), 225 == r)return e.debug("Found APP1 marker"), u(i, s + 4, i.getUint16(s + 2) - 2);
-        s += 2 + i.getUint16(s + 2)
+      function i() {
+        var e = s.getUint8(a);
+        return a++, e
+      }
+
+      function r() {
+        var e = s.getUint16(a);
+        return a += 2, e
+      }
+
+      var s = new DataView(t);
+      if (e.debug("findEXIFinJPEG: Got file of length %o", t.byteLength), 255 != s.getUint8(0) || 216 != s.getUint8(1))return e.error("Not a valid JPEG"), !1;
+      for (var o, a = 2, n = t.byteLength; n > a;) {
+        var h = i();
+        if (255 != h)return e.error("Not a valid marker at offset " + a + ", found: " + h), !1;
+        o = i(), e.debug("Marker=%o", o);
+        var c = r();
+        if (225 == o)return e.debug("Found EXIF (APP1) marker"), g(s, a, c - 2);
+        a += c
       }
     }
 
@@ -259,18 +272,18 @@
     }
 
     function n(e, t, i) {
-      for (var r, s, o, a, n, h = new DataView(e), c = {}, u = t; t + i > u;)28 === h.getUint8(u) && 2 === h.getUint8(u + 1) && (a = h.getUint8(u + 2), a in _ && (o = h.getInt16(u + 3), n = o + 5, s = _[a], r = g(h, u + 5, o), c.hasOwnProperty(s) ? c[s] instanceof Array ? c[s].push(r) : c[s] = [c[s], r] : c[s] = r)), u++;
+      for (var r, s, o, a, n, h = new DataView(e), c = {}, g = t; t + i > g;)28 === h.getUint8(g) && 2 === h.getUint8(g + 1) && (a = h.getUint8(g + 2), a in _ && (o = h.getInt16(g + 3), n = o + 5, s = _[a], r = u(h, g + 5, o), c.hasOwnProperty(s) ? c[s] instanceof Array ? c[s].push(r) : c[s] = [c[s], r] : c[s] = r)), g++;
       return c
     }
 
     function h(t, i, r, s, o) {
-      var a, n, h, g = t.getUint16(r, !o), u = {};
-      for (h = 0; g > h; h++)a = r + 12 * h + 2, n = s[t.getUint16(a, !o)], n ? u[n] = c(t, a, i, r, o) : e.warn("Unknown tag: " + t.getUint16(a, !o));
-      return u
+      var a, n, h, u = t.getUint16(r, !o), g = {};
+      for (h = 0; u > h; h++)a = r + 12 * h + 2, n = s[t.getUint16(a, !o)], n ? g[n] = c(t, a, i, r, o) : e.warn("Unknown tag: " + t.getUint16(a, !o));
+      return g
     }
 
     function c(e, t, i, r, s) {
-      var o, a, n, h, c, u, l = e.getUint16(t + 2, !s), d = e.getUint32(t + 4, !s), f = e.getUint32(t + 8, !s) + i;
+      var o, a, n, h, c, g, l = e.getUint16(t + 2, !s), d = e.getUint32(t + 4, !s), f = e.getUint32(t + 8, !s) + i;
       switch (l) {
         case 1:
         case 7:
@@ -278,7 +291,7 @@
           for (o = d > 4 ? f : t + 8, a = [], h = 0; d > h; h++)a[h] = e.getUint8(o + h);
           return a;
         case 2:
-          return o = d > 4 ? f : t + 8, g(e, o, d - 1);
+          return o = d > 4 ? f : t + 8, u(e, o, d - 1);
         case 3:
           if (1 == d)return e.getUint16(t + 8, !s);
           for (o = d > 2 ? f : t + 8, a = [], h = 0; d > h; h++)a[h] = e.getUint16(o + 2 * h, !s);
@@ -288,8 +301,8 @@
           for (a = [], h = 0; d > h; h++)a[h] = e.getUint32(f + 4 * h, !s);
           return a;
         case 5:
-          if (1 == d)return c = e.getUint32(f, !s), u = e.getUint32(f + 4, !s), n = new Number(c / u), n.numerator = c, n.denominator = u, n;
-          for (a = [], h = 0; d > h; h++)c = e.getUint32(f + 8 * h, !s), u = e.getUint32(f + 4 + 8 * h, !s), a[h] = new Number(c / u), a[h].numerator = c, a[h].denominator = u;
+          if (1 == d)return c = e.getUint32(f, !s), g = e.getUint32(f + 4, !s), n = new Number(c / g), n.numerator = c, n.denominator = g, n;
+          for (a = [], h = 0; d > h; h++)c = e.getUint32(f + 8 * h, !s), g = e.getUint32(f + 4 + 8 * h, !s), a[h] = new Number(c / g), a[h].numerator = c, a[h].denominator = g;
           return a;
         case 9:
           if (1 == d)return e.getInt32(t + 8, !s);
@@ -302,22 +315,22 @@
       }
     }
 
-    function g(e, t, i) {
+    function u(e, t, i) {
       for (var r = "", s = t; t + i > s; s++)r += String.fromCharCode(e.getUint8(s));
       return r
     }
 
-    function u(t, i) {
-      if ("Exif" != g(t, i, 4))return e.error("Not valid EXIF data! " + g(t, i, 4)), !1;
+    function g(t, i) {
+      if ("Exif" != u(t, i, 4))return e.error("Not valid EXIF data! " + u(t, i, 4)), !1;
       var r, s, o, a, n, c = i + 6;
       if (18761 == t.getUint16(c))r = !1; else {
         if (19789 != t.getUint16(c))return e.error("Not valid TIFF data! (no 0x4949 or 0x4D4D)"), !1;
         r = !0
       }
       if (42 != t.getUint16(c + 2, !r))return e.error("Not valid TIFF data! (no 0x002A)"), !1;
-      var u = t.getUint32(c + 4, !r);
-      if (8 > u)return e.error("Not valid TIFF data! (First offset less than 8)", t.getUint32(c + 4, !r)), !1;
-      if (s = h(t, c, c + u, d, r), s.ExifIFDPointer) {
+      var g = t.getUint32(c + 4, !r);
+      if (8 > g)return e.error("Not valid TIFF data! (First offset less than 8)", t.getUint32(c + 4, !r)), !1;
+      if (s = h(t, c, c + g, d, r), s.ExifIFDPointer) {
         a = h(t, c, c + s.ExifIFDPointer, l, r);
         for (o in a) {
           switch (o) {
@@ -610,60 +623,60 @@
     };
     return function(o, a, n) {
       function h() {
-        c.clearRect(0, 0, c.canvas.width, c.canvas.height), null !== g && (c.drawImage(g, 0, 0, c.canvas.width, c.canvas.height), c.save(), c.fillStyle = "rgba(0, 0, 0, 0.65)", c.fillRect(0, 0, c.canvas.width, c.canvas.height), c.restore(), u.draw())
+        c.clearRect(0, 0, c.canvas.width, c.canvas.height), null !== u && (c.drawImage(u, 0, 0, c.canvas.width, c.canvas.height), c.save(), c.fillStyle = "rgba(0, 0, 0, 0.65)", c.fillRect(0, 0, c.canvas.width, c.canvas.height), c.restore(), g.draw())
       }
 
-      var c = null, g = null, u = null, l = [100, 100], d = [300, 300], f = 200, p = "image/png", _ = null, m = function() {
-        if (null !== g) {
-          u.setImage(g);
-          var e = [g.width, g.height], t = g.width / g.height, i = e;
+      var c = null, u = null, g = null, l = [100, 100], d = [300, 300], f = 200, p = "image/png", _ = null, m = function() {
+        if (null !== u) {
+          g.setImage(u);
+          var e = [u.width, u.height], t = u.width / u.height, i = e;
           i[0] > d[0] ? (i[0] = d[0], i[1] = i[0] / t) : i[0] < l[0] && (i[0] = l[0], i[1] = i[0] / t), i[1] > d[1] ? (i[1] = d[1], i[0] = i[1] * t) : i[1] < l[1] && (i[1] = l[1], i[0] = i[1] * t), o.prop("width", i[0]).prop("height", i[1]).css({
             "margin-left": -i[0] / 2 + "px",
             "margin-top": -i[1] / 2 + "px"
-          }), u.setX(c.canvas.width / 2), u.setY(c.canvas.height / 2), u.setSize(Math.min(200, c.canvas.width / 2, c.canvas.height / 2))
+          }), g.setX(c.canvas.width / 2), g.setY(c.canvas.height / 2), g.setSize(Math.min(200, c.canvas.width / 2, c.canvas.height / 2))
         } else o.prop("width", 0).prop("height", 0).css({"margin-top": 0});
         h()
       }, v = function(e) {
         return angular.isDefined(e.changedTouches) ? e.changedTouches : e.originalEvent.changedTouches
       }, S = function(e) {
-        if (null !== g) {
+        if (null !== u) {
           var t, i, r = s(c.canvas);
-          "touchmove" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), u.processMouseMove(t - r.left, i - r.top), h()
+          "touchmove" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), g.processMouseMove(t - r.left, i - r.top), h()
         }
       }, z = function(e) {
-        if (e.preventDefault(), e.stopPropagation(), null !== g) {
+        if (e.preventDefault(), e.stopPropagation(), null !== u) {
           var t, i, r = s(c.canvas);
-          "touchstart" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), u.processMouseDown(t - r.left, i - r.top), h()
+          "touchstart" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), g.processMouseDown(t - r.left, i - r.top), h()
         }
       }, I = function(e) {
-        if (null !== g) {
+        if (null !== u) {
           var t, i, r = s(c.canvas);
-          "touchend" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), u.processMouseUp(t - r.left, i - r.top), h()
+          "touchend" === e.type ? (t = v(e)[0].pageX, i = v(e)[0].pageY) : (t = e.pageX, i = e.pageY), g.processMouseUp(t - r.left, i - r.top), h()
         }
       };
       this.getResultImageDataURI = function() {
         var e, t;
-        return t = angular.element("<canvas></canvas>")[0], e = t.getContext("2d"), t.width = f, t.height = f, null !== g && e.drawImage(g, (u.getX() - u.getSize() / 2) * (g.width / c.canvas.width), (u.getY() - u.getSize() / 2) * (g.height / c.canvas.height), u.getSize() * (g.width / c.canvas.width), u.getSize() * (g.height / c.canvas.height), 0, 0, f, f), null !== _ ? t.toDataURL(p, _) : t.toDataURL(p)
+        return t = angular.element("<canvas></canvas>")[0], e = t.getContext("2d"), t.width = f, t.height = f, null !== u && e.drawImage(u, (g.getX() - g.getSize() / 2) * (u.width / c.canvas.width), (g.getY() - g.getSize() / 2) * (u.height / c.canvas.height), g.getSize() * (u.width / c.canvas.width), g.getSize() * (u.height / c.canvas.height), 0, 0, f, f), null !== _ ? t.toDataURL(p, _) : t.toDataURL(p)
       }, this.setNewImageSource = function(e) {
-        if (g = null, m(), n.trigger("image-updated"), e) {
+        if (u = null, m(), n.trigger("image-updated"), e) {
           var t = new Image;
           "http" === e.substring(0, 4).toLowerCase() && (t.crossOrigin = "anonymous"), t.onload = function() {
             n.trigger("load-done"), r.getData(t, function() {
               var e = r.getTag(t, "Orientation");
               if ([3, 6, 8].indexOf(e) > -1) {
-                var i = document.createElement("canvas"), s = i.getContext("2d"), o = t.width, a = t.height, h = 0, c = 0, u = 0;
+                var i = document.createElement("canvas"), s = i.getContext("2d"), o = t.width, a = t.height, h = 0, c = 0, g = 0;
                 switch (e) {
                   case 3:
-                    h = -t.width, c = -t.height, u = 180;
+                    h = -t.width, c = -t.height, g = 180;
                     break;
                   case 6:
-                    o = t.height, a = t.width, c = -t.height, u = 90;
+                    o = t.height, a = t.width, c = -t.height, g = 90;
                     break;
                   case 8:
-                    o = t.height, a = t.width, h = -t.width, u = 270
+                    o = t.height, a = t.width, h = -t.width, g = 270
                 }
-                i.width = o, i.height = a, s.rotate(u * Math.PI / 180), s.drawImage(t, h, c), g = new Image, g.src = i.toDataURL("image/png")
-              } else g = t;
+                i.width = o, i.height = a, s.rotate(g * Math.PI / 180), s.drawImage(t, h, c), u = new Image, u.src = i.toDataURL("image/png")
+              } else u = t;
               m(), n.trigger("image-updated")
             })
           }, t.onerror = function(e) {
@@ -671,18 +684,18 @@
           }, n.trigger("load-start"), t.src = e
         }
       }, this.setMaxDimensions = function(e, t) {
-        if (d = [e, t], null !== g) {
-          var i = c.canvas.width, r = c.canvas.height, s = [g.width, g.height], a = g.width / g.height, n = s;
+        if (d = [e, t], null !== u) {
+          var i = c.canvas.width, r = c.canvas.height, s = [u.width, u.height], a = u.width / u.height, n = s;
           n[0] > d[0] ? (n[0] = d[0], n[1] = n[0] / a) : n[0] < l[0] && (n[0] = l[0], n[1] = n[0] / a), n[1] > d[1] ? (n[1] = d[1], n[0] = n[1] * a) : n[1] < l[1] && (n[1] = l[1], n[0] = n[1] * a), o.prop("width", n[0]).prop("height", n[1]).css({
             "margin-left": -n[0] / 2 + "px",
             "margin-top": -n[1] / 2 + "px"
           });
           var f = c.canvas.width / i, p = c.canvas.height / r, _ = Math.min(f, p);
-          u.setX(u.getX() * f), u.setY(u.getY() * p), u.setSize(u.getSize() * _)
+          g.setX(g.getX() * f), g.setY(g.getY() * p), g.setSize(g.getSize() * _)
         } else o.prop("width", 0).prop("height", 0).css({"margin-top": 0});
         h()
       }, this.setAreaMinSize = function(e) {
-        e = parseInt(e, 10), isNaN(e) || (u.setMinSize(e), h())
+        e = parseInt(e, 10), isNaN(e) || (g.setMinSize(e), h())
       }, this.setResultImageSize = function(e) {
         e = parseInt(e, 10), isNaN(e) || (f = e)
       }, this.setResultImageFormat = function(e) {
@@ -690,17 +703,17 @@
       }, this.setResultImageQuality = function(e) {
         e = parseFloat(e), !isNaN(e) && e >= 0 && 1 >= e && (_ = e)
       }, this.setAreaType = function(e) {
-        var r = u.getSize(), s = u.getMinSize(), o = u.getX(), a = u.getY(), l = t;
-        "square" === e && (l = i), u = new l(c, n), u.setMinSize(s), u.setSize(r), u.setX(o), u.setY(a), null !== g && u.setImage(g), h()
+        var r = g.getSize(), s = g.getMinSize(), o = g.getX(), a = g.getY(), l = t;
+        "square" === e && (l = i), g = new l(c, n), g.setMinSize(s), g.setSize(r), g.setX(o), g.setY(a), null !== u && g.setImage(u), h()
       }, this.getAreaDetails = function() {
         return {
-          x: u.getX(),
-          y: u.getY(),
-          size: u.getSize(),
-          image: {width: u.getImage().width, height: u.getImage().height},
+          x: g.getX(),
+          y: g.getY(),
+          size: g.getSize(),
+          image: {width: g.getImage().width, height: g.getImage().height},
           canvas: {width: c.canvas.width, height: c.canvas.height}
         }
-      }, c = o[0].getContext("2d"), u = new t(c, n), e.on("mousemove", S), o.on("mousedown", z), e.on("mouseup", I), e.on("touchmove", S), o.on("touchstart", z), e.on("touchend", I), this.destroy = function() {
+      }, c = o[0].getContext("2d"), g = new t(c, n), e.on("mousemove", S), o.on("mousedown", z), e.on("mouseup", I), e.on("touchmove", S), o.on("touchstart", z), e.on("touchend", I), this.destroy = function() {
         e.off("mousemove", S), o.off("mousedown", z), e.off("mouseup", S), e.off("touchmove", S), o.off("touchstart", z), e.off("touchend", S), o.remove()
       }
     }
