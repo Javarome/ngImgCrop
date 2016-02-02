@@ -1,6 +1,11 @@
 # ngImgCrop
 
-A fork of ngImgCrop, a Simple Image Crop directive for AngularJS. Enables to crop a circle or a square out of an image.
+ngImgCrop, a Simple Image Crop directive for AngularJS. Enables to crop a circle or a square out of an image.
+
+This forks adds:
+
+ - a way to get details (coordinates) about the crop area. Same as the one from 
+ - bugfixes about the EXIF parsing
 
 ## Screenshots
 
