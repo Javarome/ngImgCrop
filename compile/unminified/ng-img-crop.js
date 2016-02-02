@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Monday, February 1st, 2016, 4:10:11 PM
+ * Generated at Tuesday, February 2nd, 2016, 10:12:24 AM
  */
 (function() {
 'use strict';
@@ -1796,6 +1796,13 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
     }],
     link: function (scope, element/*, attrs*/) {
       // Init Events Manager
+      var NOP = function() {
+      };
+      scope.onChange = scope.onChange || NOP;
+      scope.onLoadBegin = scope.onLoadBegin || NOP;
+      scope.onLoadDone = scope.onLoadDone || NOP;
+      scope.onLoadError = scope.onLoadError || NOP;
+
       var events = scope.events;
 
       // Init Crop Host

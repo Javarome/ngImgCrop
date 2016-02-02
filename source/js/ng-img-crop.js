@@ -26,6 +26,13 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
     }],
     link: function (scope, element/*, attrs*/) {
       // Init Events Manager
+      var NOP = function() {
+      };
+      scope.onChange = scope.onChange || NOP;
+      scope.onLoadBegin = scope.onLoadBegin || NOP;
+      scope.onLoadDone = scope.onLoadDone || NOP;
+      scope.onLoadError = scope.onLoadError || NOP;
+
       var events = scope.events;
 
       // Init Crop Host
