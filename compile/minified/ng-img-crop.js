@@ -251,10 +251,9 @@
         a = i(), e.debug("Marker=%o", a);
         var c = r();
         switch (a) {
-          case 224:
-            return l(s, n, c - 2);
           case 225:
             return g(s, n, c - 2);
+          case 224:
           default:
             n += c
         }
@@ -278,7 +277,7 @@
     }
 
     function n(e, t, i) {
-      for (var r, s, o, a, n, h = new DataView(e), c = {}, g = t; t + i > g;)28 === h.getUint8(g) && 2 === h.getUint8(g + 1) && (a = h.getUint8(g + 2), a in m && (o = h.getInt16(g + 3), n = o + 5, s = m[a], r = u(h, g + 5, o), c.hasOwnProperty(s) ? c[s] instanceof Array ? c[s].push(r) : c[s] = [c[s], r] : c[s] = r)), g++;
+      for (var r, s, o, a, n, h = new DataView(e), c = {}, g = t; t + i > g;)28 === h.getUint8(g) && 2 === h.getUint8(g + 1) && (a = h.getUint8(g + 2), a in _ && (o = h.getInt16(g + 3), n = o + 5, s = _[a], r = u(h, g + 5, o), c.hasOwnProperty(s) ? c[s] instanceof Array ? c[s].push(r) : c[s] = [c[s], r] : c[s] = r)), g++;
       return c
     }
 
@@ -336,8 +335,8 @@
       if (42 != t.getUint16(c + 2, !r))return e.error("Not valid TIFF data! (no 0x002A)"), !1;
       var g = t.getUint32(c + 4, !r);
       if (8 > g)return e.error("Not valid TIFF data! (First offset less than 8)", t.getUint32(c + 4, !r)), !1;
-      if (s = h(t, c, c + g, f, r), s.ExifIFDPointer) {
-        a = h(t, c, c + s.ExifIFDPointer, d, r);
+      if (s = h(t, c, c + g, d, r), s.ExifIFDPointer) {
+        a = h(t, c, c + s.ExifIFDPointer, l, r);
         for (o in a) {
           switch (o) {
             case"LightSource":
@@ -355,20 +354,20 @@
             case"Sharpness":
             case"SubjectDistanceRange":
             case"FileSource":
-              a[o] = _[o][a[o]];
+              a[o] = p[o][a[o]];
               break;
             case"ExifVersion":
             case"FlashpixVersion":
               a[o] = String.fromCharCode(a[o][0], a[o][1], a[o][2], a[o][3]);
               break;
             case"ComponentsConfiguration":
-              a[o] = _.Components[a[o][0]] + _.Components[a[o][1]] + _.Components[a[o][2]] + _.Components[a[o][3]]
+              a[o] = p.Components[a[o][0]] + p.Components[a[o][1]] + p.Components[a[o][2]] + p.Components[a[o][3]]
           }
           s[o] = a[o]
         }
       }
       if (s.GPSInfoIFDPointer) {
-        n = h(t, c, c + s.GPSInfoIFDPointer, p, r);
+        n = h(t, c, c + s.GPSInfoIFDPointer, f, r);
         for (o in n) {
           switch (o) {
             case"GPSVersionID":
@@ -380,61 +379,7 @@
       return s
     }
 
-    function l(t, i) {
-      if ("JFIF" != u(t, i, 4))return e.error("Not valid JFIF data! " + u(t, i, 4)), !1;
-      var r, s, o, a, n, c = i + 6;
-      if (18761 == t.getUint16(c))r = !1; else {
-        if (19789 != t.getUint16(c))return e.error("Not valid TIFF data! (no 0x4949 or 0x4D4D)"), !1;
-        r = !0
-      }
-      if (42 != t.getUint16(c + 2, !r))return e.error("Not valid TIFF data! (no 0x002A)"), !1;
-      var g = t.getUint32(c + 4, !r);
-      if (8 > g)return e.error("Not valid TIFF data! (First offset less than 8)", t.getUint32(c + 4, !r)), !1;
-      if (s = h(t, c, c + g, f, r), s.ExifIFDPointer) {
-        a = h(t, c, c + s.ExifIFDPointer, d, r);
-        for (o in a) {
-          switch (o) {
-            case"LightSource":
-            case"Flash":
-            case"MeteringMode":
-            case"ExposureProgram":
-            case"SensingMethod":
-            case"SceneCaptureType":
-            case"SceneType":
-            case"CustomRendered":
-            case"WhiteBalance":
-            case"GainControl":
-            case"Contrast":
-            case"Saturation":
-            case"Sharpness":
-            case"SubjectDistanceRange":
-            case"FileSource":
-              a[o] = _[o][a[o]];
-              break;
-            case"ExifVersion":
-            case"FlashpixVersion":
-              a[o] = String.fromCharCode(a[o][0], a[o][1], a[o][2], a[o][3]);
-              break;
-            case"ComponentsConfiguration":
-              a[o] = _.Components[a[o][0]] + _.Components[a[o][1]] + _.Components[a[o][2]] + _.Components[a[o][3]]
-          }
-          s[o] = a[o]
-        }
-      }
-      if (s.GPSInfoIFDPointer) {
-        n = h(t, c, c + s.GPSInfoIFDPointer, p, r);
-        for (o in n) {
-          switch (o) {
-            case"GPSVersionID":
-              n[o] = n[o][0] + "." + n[o][1] + "." + n[o][2] + "." + n[o][3]
-          }
-          s[o] = n[o]
-        }
-      }
-      return s
-    }
-
-    var d = this.Tags = {
+    var l = this.Tags = {
       36864: "ExifVersion",
       40960: "FlashpixVersion",
       40961: "ColorSpace",
@@ -492,7 +437,7 @@
       41996: "SubjectDistanceRange",
       40965: "InteroperabilityIFDPointer",
       42016: "ImageUniqueID"
-    }, f = this.TiffTags = {
+    }, d = this.TiffTags = {
       256: "ImageWidth",
       257: "ImageHeight",
       34665: "ExifIFDPointer",
@@ -526,7 +471,7 @@
       305: "Software",
       315: "Artist",
       33432: "Copyright"
-    }, p = this.GPSTags = {
+    }, f = this.GPSTags = {
       0: "GPSVersionID",
       1: "GPSLatitudeRef",
       2: "GPSLatitude",
@@ -558,7 +503,7 @@
       28: "GPSAreaInformation",
       29: "GPSDateStamp",
       30: "GPSDifferential"
-    }, _ = this.StringValues = {
+    }, p = this.StringValues = {
       ExposureProgram: {
         0: "Not defined",
         1: "Manual",
@@ -647,7 +592,7 @@
       SubjectDistanceRange: {0: "Unknown", 1: "Macro", 2: "Close view", 3: "Distant view"},
       FileSource: {3: "DSC"},
       Components: {0: "", 1: "Y", 2: "Cb", 3: "Cr", 4: "R", 5: "G", 6: "B"}
-    }, m = {
+    }, _ = {
       120: "caption",
       110: "credit",
       25: "keywords",
