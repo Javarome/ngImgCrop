@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, February 2nd, 2016, 11:16:14 AM
+ * Generated at Wednesday, February 3rd, 2016, 11:29:14 AM
  */
 (function() {
 'use strict';
@@ -967,16 +967,16 @@ crop.service('cropEXIF', ['$log', function ($log) {
 
   function findEXIFinJPEG(file) {
     var dataView = new DataView(file);
+    var maxOffset = dataView.byteLength - 4;
 
     $log.debug('findEXIFinJPEG: Got file of length %o', file.byteLength);
-    if ((dataView.getUint8(0) != 0xFF) || (dataView.getUint8(1) != 0xD8)) {
+    if (dataView.getUint16(0) !== 0xffd8) {
       $log.error('Not a valid JPEG');
       return false; // not a valid jpeg
     }
 
-    var offset = 2,
-      length = file.byteLength,
-      marker;
+    var offset = 2;
+    var marker;
 
     function readByte() {
       var someByte = dataView.getUint8(offset);
@@ -989,7 +989,8 @@ crop.service('cropEXIF', ['$log', function ($log) {
       offset = offset + 2;
       return someWord;
     }
-    while (offset < length) {
+
+    while (offset < maxOffset) {
       var someByte = readByte();
       if (someByte != 0xFF) {
         $log.error('Not a valid marker at offset ' + offset + ", found: " + someByte);
@@ -1002,8 +1003,8 @@ crop.service('cropEXIF', ['$log', function ($log) {
       // but we're only looking for 0xFFE1 for EXIF data
 
       var segmentLength = readWord();
-      if (marker == 225) {
-        $log.debug('Found EXIF (APP1) marker');
+      if (marker >= 0xE0 && marker <= 0xEF) {
+        $log.debug('Found EXIF (APP' + (marker - 0xE0) + ') marker');
         return readEXIFData(dataView, offset, segmentLength - 2);
         // offset += 2 + file.getShortAt(offset+2, true);
       } else {

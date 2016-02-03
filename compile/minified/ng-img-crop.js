@@ -234,24 +234,24 @@
 
     function o(t) {
       function i() {
-        var e = s.getUint8(a);
-        return a++, e
+        var e = s.getUint8(n);
+        return n++, e
       }
 
       function r() {
-        var e = s.getUint16(a);
-        return a += 2, e
+        var e = s.getUint16(n);
+        return n += 2, e
       }
 
-      var s = new DataView(t);
-      if (e.debug("findEXIFinJPEG: Got file of length %o", t.byteLength), 255 != s.getUint8(0) || 216 != s.getUint8(1))return e.error("Not a valid JPEG"), !1;
-      for (var o, a = 2, n = t.byteLength; n > a;) {
+      var s = new DataView(t), o = s.byteLength - 4;
+      if (e.debug("findEXIFinJPEG: Got file of length %o", t.byteLength), 65496 !== s.getUint16(0))return e.error("Not a valid JPEG"), !1;
+      for (var a, n = 2; o > n;) {
         var h = i();
-        if (255 != h)return e.error("Not a valid marker at offset " + a + ", found: " + h), !1;
-        o = i(), e.debug("Marker=%o", o);
+        if (255 != h)return e.error("Not a valid marker at offset " + n + ", found: " + h), !1;
+        a = i(), e.debug("Marker=%o", a);
         var c = r();
-        if (225 == o)return e.debug("Found EXIF (APP1) marker"), g(s, a, c - 2);
-        a += c
+        if (a >= 224 && 239 >= a)return e.debug("Found EXIF (APP" + (a - 224) + ") marker"), g(s, n, c - 2);
+        n += c
       }
     }
 
