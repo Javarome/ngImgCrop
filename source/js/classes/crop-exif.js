@@ -414,10 +414,10 @@ crop.service('cropEXIF', ['$log', function ($log) {
       // we could implement handling for other markers here,
       // but we're only looking for 0xFFE1 for EXIF data
 
-      var segmentLength = readWord();
+      var segmentLength = readWord() - 2;
       switch (marker) {
         case 0xE1:
-          return readEXIFData(dataView, offset, segmentLength - 2);
+          return readEXIFData(dataView, offset, segmentLength);
         case 0xE0: // JFIF
         default:
           offset += segmentLength;

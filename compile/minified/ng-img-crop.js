@@ -249,10 +249,10 @@
         var h = i();
         if (255 != h)return e.error("Not a valid marker at offset " + n + ", found: " + h), !1;
         a = i(), e.debug("Marker=%o", a);
-        var c = r();
+        var c = r() - 2;
         switch (a) {
           case 225:
-            return g(s, n, c - 2);
+            return g(s, n, c);
           case 224:
           default:
             n += c
