@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', function ($document, CropAreaCircle, CropAreaSquare, cropEXIF) {
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -168,13 +168,17 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
 
 
     this.getResultImageDataURI = function() {
-      var temp_ctx, temp_canvas;
-      temp_canvas = angular.element('<canvas></canvas>')[0];
-      temp_ctx = temp_canvas.getContext('2d');
+      var temp_canvas = angular.element('<canvas></canvas>')[0];
+      var temp_ctx = temp_canvas.getContext('2d');
       temp_canvas.width = resImgSize;
       temp_canvas.height = resImgSize;
       if (image !== null) {
-        temp_ctx.drawImage(image, (theArea.getX() - theArea.getSize() / 2) * (image.width / ctx.canvas.width), (theArea.getY() - theArea.getSize() / 2) * (image.height / ctx.canvas.height), theArea.getSize() * (image.width / ctx.canvas.width), theArea.getSize() * (image.height / ctx.canvas.height), 0, 0, resImgSize, resImgSize);
+        temp_ctx.drawImage(image,
+          (theArea.getX() - theArea.getSize() / 2) * (image.width / ctx.canvas.width),
+          (theArea.getY() - theArea.getSize() / 2) * (image.height / ctx.canvas.height),
+          theArea.getSize() * (image.width / ctx.canvas.width),
+          theArea.getSize() * (image.height / ctx.canvas.height),
+          0, 0, resImgSize, resImgSize);
       }
       if (resImgQuality !== null) {
         return temp_canvas.toDataURL(resImgFormat, resImgQuality);
@@ -244,8 +248,10 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     };
 
     this.setMaxDimensions = function(width, height) {
+      $log.debug('setMaxDimensions(' + width + ', ' + height + ')');
       maxCanvasDims = [width, height];
 
+      $log.debug('image=' + image);
       if (image !== null) {
         var curWidth = ctx.canvas.width,
           curHeight = ctx.canvas.height;
@@ -285,7 +291,6 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
 
       drawScene();
-
     };
 
     this.setAreaMinSize = function(size) {
