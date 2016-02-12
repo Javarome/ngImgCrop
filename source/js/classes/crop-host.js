@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$element', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log, $element) {
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -28,6 +28,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     // Object Pointers
     var ctx = null,
       image = null,
+      element = elCanvas.parent(),
       theArea = null;
 
     // Dimensions
@@ -236,7 +237,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
               image = newImage;
             }
             resetCropHost();
-            self.setMaxDimensions($element[0].clientWidth, $element[0].clientHeight);
+            self.setMaxDimensions(element[0].clientWidth, element[0].clientHeight);
             events.trigger('image-updated');
           });
         };
