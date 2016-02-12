@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, February 12th, 2016, 4:07:59 PM
+ * Generated at Friday, February 12th, 2016, 5:45:13 PM
  */
 (function() {
 'use strict';
@@ -1373,7 +1373,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
   }
 }]);
 
-  crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
+  crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$element', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log, $element) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -1558,6 +1558,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
       return temp_canvas.toDataURL(resImgFormat);
     };
 
+    var self = this;
     this.setNewImageSource = function(imageSource) {
       image = null;
       resetCropHost();
@@ -1608,6 +1609,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
               image = newImage;
             }
             resetCropHost();
+            self.setMaxDimensions($element[0].clientWidth, $element[0].clientHeight);
             events.trigger('image-updated');
           });
         };

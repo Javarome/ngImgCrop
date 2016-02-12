@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$element', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log, $element) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -166,7 +166,6 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     };
 
-
     this.getResultImageDataURI = function() {
       var temp_canvas = angular.element('<canvas></canvas>')[0];
       var temp_ctx = temp_canvas.getContext('2d');
@@ -186,6 +185,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       return temp_canvas.toDataURL(resImgFormat);
     };
 
+    var self = this;
     this.setNewImageSource = function(imageSource) {
       image = null;
       resetCropHost();
@@ -236,6 +236,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
               image = newImage;
             }
             resetCropHost();
+            self.setMaxDimensions($element[0].clientWidth, $element[0].clientHeight);
             events.trigger('image-updated');
           });
         };
