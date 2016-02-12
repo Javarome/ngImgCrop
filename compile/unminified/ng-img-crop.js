@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, February 12th, 2016, 3:05:41 PM
+ * Generated at Friday, February 12th, 2016, 4:07:59 PM
  */
 (function() {
 'use strict';
@@ -1373,7 +1373,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
   }
 }]);
 
-  crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
+  crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
