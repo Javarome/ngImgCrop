@@ -38,6 +38,7 @@ Icon
 
 # SASS Cache
 .sass_cache/
+.sass-cache/
 
 # Installed Bower/Node modules
 bower_components/

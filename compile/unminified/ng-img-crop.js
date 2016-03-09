@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, February 12th, 2016, 5:59:04 PM
+ * Generated at Wednesday, March 9th, 2016, 11:01:23 AM
  */
 (function() {
 'use strict';
@@ -971,7 +971,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
 
     $log.debug('findEXIFinJPEG: Got file of length %o', file.byteLength);
     if (dataView.getUint16(0) !== 0xffd8) {
-      $log.error('Not a valid JPEG');
+      $log.warn('Not a valid JPEG');
       return false; // not a valid jpeg
     }
 
@@ -1018,7 +1018,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
 
     $log.debug('Got file of length ' + file.byteLength);
     if ((dataView.getUint8(0) != 0xFF) || (dataView.getUint8(1) != 0xD8)) {
-      $log.error('Not a valid JPEG');
+      $log.warn('Not a valid JPEG');
       return false; // not a valid jpeg
     }
 
@@ -1373,7 +1373,8 @@ crop.service('cropEXIF', ['$log', function ($log) {
   }
 }]);
 
-  crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
+
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
