@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$timeout', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log, $timeout) {
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$timeout', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -91,8 +91,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
           canvasDims[1] = minCanvasDims[1];
           canvasDims[0] = canvasDims[1] * imageRatio;
         }
-        const w = Math.floor(canvasDims[0]);
-        const h = Math.floor(canvasDims[1]);
+        var w = Math.floor(canvasDims[0]);
+        var h = Math.floor(canvasDims[1]);
         canvasDims[0] = w;
         canvasDims[1] = h;
         console.log('canvas reset =' + w + 'x' + h);
@@ -288,8 +288,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
           canvasDims[1] = minCanvasDims[1];
           canvasDims[0] = canvasDims[1] * imageRatio;
         }
-        const w = Math.floor(canvasDims[0]);
-        const h = Math.floor(canvasDims[1]);
+        var w = Math.floor(canvasDims[0]);
+        var h = Math.floor(canvasDims[1]);
         canvasDims[0] = w;
         canvasDims[1] = h;
         console.log('canvas set dimension=' + w + 'x' + h);
