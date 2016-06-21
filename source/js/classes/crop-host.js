@@ -95,16 +95,16 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         const h = Math.floor(canvasDims[1]);
         canvasDims[0] = w;
         canvasDims[1] = h;
-        console.log('canvas=' + w + 'x' + h);
-        $timeout(function() {
-          elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
-            'margin-left': -canvasDims[0] / 2 + 'px',
-            'margin-top': -canvasDims[1] / 2 + 'px'
+        console.log('canvas reset =' + w + 'x' + h);
+        // timeout(function() {
+          elCanvas.prop('width', w).prop('height', h).css({
+            'margin-left': -w / 2 + 'px',
+            'margin-top': -h / 2 + 'px'
           });
           theArea.setX(ctx.canvas.width / 2);
           theArea.setY(ctx.canvas.height / 2);
           theArea.setSize(Math.min(200, ctx.canvas.width / 2, ctx.canvas.height / 2));
-        }, 300);
+        // }, 150);
       } else {
         elCanvas.prop('width', 0).prop('height', 0).css({'margin-top': 0});
       }
@@ -264,14 +264,15 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       $log.debug('setMaxDimensions(' + width + ', ' + height + ')');
       maxCanvasDims = [width, height];
 
-      $log.debug('image=' + image);
       if (image !== null) {
+        var imageWidth = width;
+        var imageHeight = height;
+        var imageDims = [imageWidth, imageHeight];
+        var imageRatio = imageWidth / imageHeight;
+        var canvasDims = imageDims;
+
         var curWidth = ctx.canvas.width,
           curHeight = ctx.canvas.height;
-
-        var imageDims = [image.width, image.height],
-          imageRatio = image.width / image.height,
-          canvasDims = imageDims;
 
         if (canvasDims[0] > maxCanvasDims[0]) {
           canvasDims[0] = maxCanvasDims[0];
@@ -287,9 +288,14 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
           canvasDims[1] = minCanvasDims[1];
           canvasDims[0] = canvasDims[1] * imageRatio;
         }
-        elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
-          'margin-left': -canvasDims[0] / 2 + 'px',
-          'margin-top': -canvasDims[1] / 2 + 'px'
+        const w = Math.floor(canvasDims[0]);
+        const h = Math.floor(canvasDims[1]);
+        canvasDims[0] = w;
+        canvasDims[1] = h;
+        console.log('canvas set dimension=' + w + 'x' + h);
+        elCanvas.prop('width', w).prop('height', h).css({
+          'margin-left': -w / 2 + 'px',
+          'margin-top': -h / 2 + 'px'
         });
 
         var ratioNewCurWidth = ctx.canvas.width / curWidth,
