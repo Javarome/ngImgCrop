@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, June 21st, 2016, 5:37:57 PM
+ * Generated at Tuesday, June 21st, 2016, 5:41:08 PM
  */
 (function() {
 'use strict';
@@ -1484,6 +1484,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
 
       drawScene();
+
+      return canvasDims;
     };
 
     /**
