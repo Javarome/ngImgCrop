@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, June 21st, 2016, 5:34:57 PM
+ * Generated at Tuesday, June 21st, 2016, 5:37:57 PM
  */
 (function() {
 'use strict';
@@ -1442,8 +1442,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     }
 
-    // Resets CropHost
-    var resetCropHost = function() {
+    var resetCropHost = function(cw, ch) {
       if (image !== null) {
         theArea.setImage(image);
         var imageWidth = image.width || cw;

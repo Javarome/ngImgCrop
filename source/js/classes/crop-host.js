@@ -68,8 +68,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     }
 
-    // Resets CropHost
-    var resetCropHost = function() {
+    var resetCropHost = function(cw, ch) {
       if (image !== null) {
         theArea.setImage(image);
         var imageWidth = image.width || cw;
