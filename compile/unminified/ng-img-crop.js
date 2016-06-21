@@ -1442,13 +1442,14 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     }
 
-    // Resets CropHost
-    var resetCropHost = function() {
+    var resetCropHost = function(cw, ch) {
       if (image !== null) {
         theArea.setImage(image);
-        var imageDims = [image.width, image.height],
-          imageRatio = image.width / image.height,
-          canvasDims = imageDims;
+        var imageWidth = image.width || cw;
+        var imageHeight = image.height || ch;
+        var imageDims = [imageWidth, imageHeight];
+        var imageRatio = imageWidth / imageHeight;
+        var canvasDims = imageDims;
 
         if (canvasDims[0] > maxCanvasDims[0]) {
           canvasDims[0] = maxCanvasDims[0];
@@ -1612,7 +1613,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            var canvasDims = resetCropHost();
+            $log.debug('dims=' + cw + 'x' + ch);
+            var canvasDims = resetCropHost(cw, ch);
             self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');
             events.trigger('image-ready');
