@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, June 21st, 2016, 3:14:19 PM
+ * Generated at Tuesday, June 21st, 2016, 5:29:54 PM
  */
 (function() {
 'use strict';
@@ -1374,7 +1374,7 @@ crop.service('cropEXIF', ['$log', function ($log) {
 }]);
 
 
-crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log) {
+crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'cropEXIF', '$log', '$timeout', function($document, CropAreaCircle, CropAreaSquare, cropEXIF, $log, $timeout) {
   /* STATIC FUNCTIONS */
 
   // Get Element's Offset
@@ -1442,7 +1442,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     }
 
-    var resetCropHost = function(cw, ch) {
+    // Resets CropHost
+    var resetCropHost = function() {
       if (image !== null) {
         theArea.setImage(image);
         var imageWidth = image.width || cw;
@@ -1465,21 +1466,25 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
           canvasDims[1] = minCanvasDims[1];
           canvasDims[0] = canvasDims[1] * imageRatio;
         }
-        elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
-          'margin-left': -canvasDims[0] / 2 + 'px',
-          'margin-top': -canvasDims[1] / 2 + 'px'
-        });
-
-        theArea.setX(ctx.canvas.width / 2);
-        theArea.setY(ctx.canvas.height / 2);
-        theArea.setSize(Math.min(200, ctx.canvas.width / 2, ctx.canvas.height / 2));
+        const w = Math.floor(canvasDims[0]);
+        const h = Math.floor(canvasDims[1]);
+        canvasDims[0] = w;
+        canvasDims[1] = h;
+        console.log('canvas=' + w + 'x' + h);
+        $timeout(function() {
+          elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
+            'margin-left': -canvasDims[0] / 2 + 'px',
+            'margin-top': -canvasDims[1] / 2 + 'px'
+          });
+          theArea.setX(ctx.canvas.width / 2);
+          theArea.setY(ctx.canvas.height / 2);
+          theArea.setSize(Math.min(200, ctx.canvas.width / 2, ctx.canvas.height / 2));
+        }, 300);
       } else {
         elCanvas.prop('width', 0).prop('height', 0).css({'margin-top': 0});
       }
 
       drawScene();
-
-      return canvasDims;
     };
 
     /**
@@ -1613,7 +1618,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            $log.debug('dims=' + cw + 'x' + ch);
+            log.debug('dims=' + cw + 'x' + ch);
             var canvasDims = resetCropHost(cw, ch);
             self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');
