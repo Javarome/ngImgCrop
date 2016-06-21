@@ -244,7 +244,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            log.debug('dims=' + cw + 'x' + ch);
+            $log.debug('dims=' + cw + 'x' + ch);
             var canvasDims = resetCropHost(cw, ch);
             self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');

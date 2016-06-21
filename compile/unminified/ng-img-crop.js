@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, June 21st, 2016, 5:29:54 PM
+ * Generated at Tuesday, June 21st, 2016, 5:34:57 PM
  */
 (function() {
 'use strict';
@@ -1618,7 +1618,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            log.debug('dims=' + cw + 'x' + ch);
+            $log.debug('dims=' + cw + 'x' + ch);
             var canvasDims = resetCropHost(cw, ch);
             self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');
