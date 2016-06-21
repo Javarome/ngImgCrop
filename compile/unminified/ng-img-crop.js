@@ -1477,6 +1477,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
 
       drawScene();
+
+      return canvasDims;
     };
 
     /**
