@@ -4,7 +4,7 @@ var argv         = require('minimist')(process.argv.slice(2)),
     header       = require('gulp-header'),
     gutil        = require('gulp-util'),
     ngAnnotate   = require('gulp-ng-annotate'),
-    compass      = require('gulp-compass'),
+    // compass      = require('gulp-compass'),
     refresh      = require('gulp-livereload'),
     prefix       = require('gulp-autoprefixer'),
     minifyCss    = require('gulp-minify-css'),
@@ -116,7 +116,7 @@ gulp.task('dist:js', ['dist:js:clean', 'scripts'], function(){
     .pipe(header(Config.banners.minified))
     .pipe(gulp.dest(Config.paths.compileMinified.js));
 });
-gulp.task('dist:css', ['dist:css:clean', 'styles'], function(){
+gulp.task('dist:css', ['dist:css:clean', /*'styles'*/], function(){
   return gulp.src(Config.paths.compileUnminified.css + '/**/*.css')
     .pipe(minifyCss())
     .pipe(gulp.dest(Config.paths.compileMinified.css));

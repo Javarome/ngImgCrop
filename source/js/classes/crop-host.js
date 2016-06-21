@@ -236,9 +236,10 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            resetCropHost();
-            self.setMaxDimensions(element[0].clientWidth, element[0].clientHeight);
+            var canvasDims = resetCropHost();
+            self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');
+            events.trigger('image-ready');
           });
         };
         newImage.onerror = function(error) {

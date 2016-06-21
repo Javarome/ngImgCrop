@@ -18,7 +18,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
       onChange: '&?',
       onLoadBegin: '&?',
       onLoadDone: '&?',
-      onLoadError: '&?'
+      onLoadError: '&?',
+      onImageReady: '&?'
     },
     template: '<canvas></canvas>',
     controller: ['$scope', function ($scope) {
@@ -72,6 +73,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
         }))
         .on('load-done', fnSafeApply(function (scope) {
           scope.onLoadDone({});
+        }))
+        .on('image-ready', fnSafeApply(function (scope) {
+          scope.onImageReady({});
         }))
         .on('load-error', fnSafeApply(function (scope) {
           scope.onLoadError({});

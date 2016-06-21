@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Wednesday, March 9th, 2016, 11:01:23 AM
+ * Generated at Tuesday, June 21st, 2016, 3:14:19 PM
  */
 (function() {
 'use strict';
@@ -1610,9 +1610,10 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             } else {
               image = newImage;
             }
-            resetCropHost();
-            self.setMaxDimensions(element[0].clientWidth, element[0].clientHeight);
+            var canvasDims = resetCropHost();
+            self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             events.trigger('image-updated');
+            events.trigger('image-ready');
           });
         };
         newImage.onerror = function(error) {
@@ -1805,7 +1806,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
       onChange: '&?',
       onLoadBegin: '&?',
       onLoadDone: '&?',
-      onLoadError: '&?'
+      onLoadError: '&?',
+      onImageReady: '&?'
     },
     template: '<canvas></canvas>',
     controller: ['$scope', function ($scope) {
@@ -1859,6 +1861,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
         }))
         .on('load-done', fnSafeApply(function (scope) {
           scope.onLoadDone({});
+        }))
+        .on('image-ready', fnSafeApply(function (scope) {
+          scope.onImageReady({});
         }))
         .on('load-error', fnSafeApply(function (scope) {
           scope.onLoadError({});
