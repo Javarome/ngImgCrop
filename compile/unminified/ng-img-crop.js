@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Wednesday, June 22nd, 2016, 12:23:00 PM
+ * Generated at Wednesday, June 22nd, 2016, 2:12:33 PM
  */
 (function() {
 'use strict';
@@ -1587,6 +1587,14 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
           cropEXIF.getData(newImage, function() {
             var orientation = cropEXIF.getTag(newImage, 'Orientation');
 
+            function imageDone() {
+              $log.debug('dims=' + cw + 'x' + ch);
+              var canvasDims = resetCropHost(cw, ch);
+              self.setMaxDimensions(canvasDims[0], canvasDims[1]);
+              events.trigger('image-updated');
+              events.trigger('image-ready');
+            }
+
             if ([3, 6, 8].indexOf(orientation) > -1) {
               var canvas = document.createElement("canvas"),
                 ctx = canvas.getContext("2d"),
@@ -1617,15 +1625,14 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
               ctx.drawImage(newImage, cx, cy);
 
               image = new Image();
+              image.onload = function() {
+                imageDone();
+              };
               image.src = canvas.toDataURL("image/png");
             } else {
               image = newImage;
+              imageDone();
             }
-            $log.debug('dims=' + cw + 'x' + ch);
-            var canvasDims = resetCropHost(cw, ch);
-            self.setMaxDimensions(canvasDims[0], canvasDims[1]);
-            events.trigger('image-updated');
-            events.trigger('image-ready');
           });
         };
         newImage.onerror = function(error) {
