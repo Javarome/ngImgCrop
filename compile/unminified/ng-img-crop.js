@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, June 21st, 2016, 6:51:45 PM
+ * Generated at Wednesday, June 22nd, 2016, 12:21:22 PM
  */
 (function() {
 'use strict';
@@ -1470,15 +1470,13 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         canvasDims[0] = w;
         canvasDims[1] = h;
         console.log('canvas reset =' + w + 'x' + h);
-        // timeout(function() {
-          elCanvas.prop('width', w).prop('height', h).css({
-            'margin-left': -w / 2 + 'px',
-            'margin-top': -h / 2 + 'px'
-          });
-          theArea.setX(ctx.canvas.width / 2);
-          theArea.setY(ctx.canvas.height / 2);
-          theArea.setSize(Math.min(200, ctx.canvas.width / 2, ctx.canvas.height / 2));
-        // }, 150);
+        elCanvas.prop('width', w).prop('height', h).css({
+          'margin-left': -w / 2 + 'px',
+          'margin-top': -h / 2 + 'px'
+        });
+        theArea.setX(ctx.canvas.width / 2);
+        theArea.setY(ctx.canvas.height / 2);
+        theArea.setSize(Math.min(200, ctx.canvas.width / 2, ctx.canvas.height / 2));
       } else {
         elCanvas.prop('width', 0).prop('height', 0).css({'margin-top': 0});
       }
@@ -1569,6 +1567,10 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       return temp_canvas.toDataURL(resImgFormat);
     };
 
+    this.redraw = function() {
+      drawScene();
+    }
+
     var self = this;
     this.setNewImageSource = function(imageSource) {
       image = null;
@@ -1636,54 +1638,17 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
 
     this.setMaxDimensions = function(width, height) {
       $log.debug('setMaxDimensions(' + width + ', ' + height + ')');
-      maxCanvasDims = [width, height];
 
       if (image !== null) {
-        var imageWidth = width;
-        var imageHeight = height;
-        var imageDims = [imageWidth, imageHeight];
-        var imageRatio = imageWidth / imageHeight;
-        var canvasDims = imageDims;
-
         var curWidth = ctx.canvas.width,
           curHeight = ctx.canvas.height;
-
-        if (canvasDims[0] > maxCanvasDims[0]) {
-          canvasDims[0] = maxCanvasDims[0];
-          canvasDims[1] = canvasDims[0] / imageRatio;
-        } else if (canvasDims[0] < minCanvasDims[0]) {
-          canvasDims[0] = minCanvasDims[0];
-          canvasDims[1] = canvasDims[0] / imageRatio;
-        }
-        if (canvasDims[1] > maxCanvasDims[1]) {
-          canvasDims[1] = maxCanvasDims[1];
-          canvasDims[0] = canvasDims[1] * imageRatio;
-        } else if (canvasDims[1] < minCanvasDims[1]) {
-          canvasDims[1] = minCanvasDims[1];
-          canvasDims[0] = canvasDims[1] * imageRatio;
-        }
-        const w = Math.floor(canvasDims[0]);
-        const h = Math.floor(canvasDims[1]);
-        canvasDims[0] = w;
-        canvasDims[1] = h;
-        console.log('canvas set dimension=' + w + 'x' + h);
-        elCanvas.prop('width', w).prop('height', h).css({
-          'margin-left': -w / 2 + 'px',
-          'margin-top': -h / 2 + 'px'
-        });
 
         var ratioNewCurWidth = ctx.canvas.width / curWidth,
           ratioNewCurHeight = ctx.canvas.height / curHeight,
           ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
-
-        theArea.setX(theArea.getX() * ratioNewCurWidth);
-        theArea.setY(theArea.getY() * ratioNewCurHeight);
-        theArea.setSize(theArea.getSize() * ratioMin);
-      } else {
-        elCanvas.prop('width', 0).prop('height', 0).css({'margin-top': 0});
       }
-
-      drawScene();
+      maxCanvasDims = [width, height];
+      return resetCropHost(width, height);
     };
 
     this.setAreaMinSize = function(size) {
@@ -1879,7 +1844,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
           scope.onLoadDone({});
         }))
         .on('image-ready', fnSafeApply(function (scope) {
-          scope.onImageReady({});
+          if (scope.onImageReady({})) {
+            cropHost.redraw();
+          }
         }))
         .on('load-error', fnSafeApply(function (scope) {
           scope.onLoadError({});

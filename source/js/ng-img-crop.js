@@ -75,7 +75,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
           scope.onLoadDone({});
         }))
         .on('image-ready', fnSafeApply(function (scope) {
-          scope.onImageReady({});
+          if (scope.onImageReady({})) {
+            cropHost.redraw();
+          }
         }))
         .on('load-error', fnSafeApply(function (scope) {
           scope.onLoadError({});
