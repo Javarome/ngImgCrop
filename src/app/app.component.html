@@ -1,0 +1,77 @@
+<script src="../../source/js/ng-img-crop.js"></script>
+<div>
+  <label><input type="checkbox" [(ngModel)]="enableCrop" ng-init="enableCrop=true"/> Add ngImgCrop to Page</label>
+</div>
+<div>
+  Container size:
+  <label><input type="radio" [(ngModel)]="size" value="big" /> Big</label>
+  <label><input type="radio" [(ngModel)]="size" value="medium" /> Medium</label>
+  <label><input type="radio" [(ngModel)]="size" value="small" /> Small</label>
+</div>
+<div>
+  Area type:
+  <label><input type="radio" [(ngModel)]="type" value="circle" /> Circle</label>
+  <label><input type="radio" [(ngModel)]="type" value="square" /> Square</label>
+  <!--<label><input type="radio" [(ngModel)]="type" value="rectangle" /> Rectangle</label>-->
+</div>
+<div>
+  <label><input type="checkbox" [(ngModel)]="changeOnFly" /> Change On Fly</label>
+</div>
+<!--
+<div>
+  <label>Aspect Ratio: <input type="text" [(ngModel)]="aspectRatio" /></label>
+</div>
+-->
+<div>
+  <label>Area Min Size (Size = Width = Height): <input type="text" [(ngModel)]="selMinSize" /></label>
+</div>
+<div>
+  <label>Result Image Size (Size = Width = Height): <input type="text" [(ngModel)]="resImgSize" /></label>
+</div>
+<div>
+  Result Image Format:
+  <label><input type="radio" [(ngModel)]="resImgFormat" value="image/jpeg" /> image/jpeg</label>
+  <label><input type="radio" [(ngModel)]="resImgFormat" value="image/png" /> image/png</label>
+  <label><input type="radio" [(ngModel)]="resImgFormat" value="image/webp" /> image/webp</label>
+</div>
+<div>
+  <label>Result Image Quality (0<=X<=1): <input type="text" [(ngModel)]="resImgQuality" /></label>
+</div>
+<form ng-show="enableCrop">
+  <label for="fileInput">Select Image:</label>
+  <input type="file" id="fileInput" />
+  <button type="reset">Clear</button>
+  <button (click)="imageDataURI='test.jpg'">Set Test Image</button>
+</form>
+<div>
+  <label>Image URL: <input type="text" [(ngModel)]="edtImageURI" /></label>
+  <button (click)="imageDataURI=edtImageURI">Set Image</button>
+</div>
+<div>
+  <button (click)="imageDataURI=''">Reset Image</button>
+</div>
+
+<div *ngIf="enableCrop" class="cropArea" [ngClass]="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
+  <!--img-crop image="imageDataURI"
+            result-image="$parent.resImageDataURI"
+            change-on-fly="changeOnFly"
+            area-type="{{type}}"
+            area-min-size="selMinSize"
+            result-image-format="{{resImgFormat}}"
+            result-image-quality="resImgQuality"
+            result-image-size="resImgSize"
+            on-change="onChange($dataURI)"
+            on-load-begin="onLoadBegin()"
+            on-load-done="onLoadDone()"
+            on-load-error="onLoadError()"
+  ></img-crop-->
+  <fc-img-crop></fc-img-crop>
+  <!--aspect-ratio="aspectRatio"-->
+</div>
+
+<div style="text-align:center">
+  <h3>Result</h3>
+  <div>
+    <img [src]="resImageDataURI" />
+  </div>
+</div>
