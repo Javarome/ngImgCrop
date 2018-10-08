@@ -6,29 +6,22 @@ import {ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@a
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnChanges {
-    size: string;
-    type: string;
-    imageDataURI: string;
-    resImageDataURI: string;
-    resImgFormat: string;
-    resImgQuality: number;
-    selMinSize: number;
-    resImgSize: number;
+    size = 'small';
+    type= 'circle';
+    imageDataURI = '';
+    resImageDataURI = '';
+    resImgFormat = 'image/png';
+    resImgQuality = 1;
+    selMinSize = 100;
+    resImgSize = 200;
     enableCrop = true;
     edtImageURI: string;
+    changeOnFly: boolean;
 
     constructor(private ref: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
-        this.size = 'small';
-        this.type = 'circle';
-        this.imageDataURI = '';
-        this.resImageDataURI = '';
-        this.resImgFormat = 'image/png';
-        this.resImgQuality = 1;
-        this.selMinSize = 100;
-        this.resImgSize = 200;
         //this.aspectRatio=1.2;
         var handleFileSelect = evt => {
             var file = evt.currentTarget.files[0];
@@ -44,7 +37,7 @@ export class AppComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.resImageDataURI) {
-            //console.log('Res image', this.resImageDataURI);
+            console.log('Res image', this.resImageDataURI);
         }
     }
 

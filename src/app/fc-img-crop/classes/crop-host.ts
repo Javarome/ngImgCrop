@@ -26,23 +26,23 @@ export class CropHost {
     private element: any;
 
     constructor(private elCanvas, private opts, private events) {
-        this.element = elCanvas.parent();
+        this.element = elCanvas.parentElement;
 
         // Init Context var
-        this.ctx = elCanvas[0].getContext('2d');
+        this.ctx = elCanvas.getContext('2d');
 
         // Init CropArea
         this.theArea = new CropAreaCircle(this.ctx, events);
 
         // Init Mouse Event Listeners
-        document.addEventListener('mousemove', this.onMouseMove);
-        elCanvas.on('mousedown', this.onMouseDown);
-        document.addEventListener('mouseup', this.onMouseUp);
+        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        elCanvas.addEventListener('mousedown', this.onMouseDown.bind(this));
+        document.addEventListener('mouseup', this.onMouseUp.bind(this));
 
         // Init Touch Event Listeners
-        document.addEventListener('touchmove', this.onMouseMove);
-        elCanvas.on('touchstart', this.onMouseDown);
-        document.addEventListener('touchend', this.onMouseUp);
+        document.addEventListener('touchmove', this.onMouseMove.bind(this));
+        elCanvas.addEventListener('touchstart', this.onMouseDown.bind(this));
+        document.addEventListener('touchend', this.onMouseUp.bind(this));
 
     }
 
