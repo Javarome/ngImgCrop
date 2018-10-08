@@ -3,7 +3,7 @@
  */
 export class CropEXIF {
 
-    ExifTags = {
+    static ExifTags = {
 
         // version tags
         0x9000: "ExifVersion",             // EXIF version
@@ -79,7 +79,7 @@ export class CropEXIF {
         0xA420: "ImageUniqueID"            // Identifier assigned uniquely to each image
     };
 
-    TiffTags = {
+    static TiffTags = {
         0x0100: "ImageWidth",
         0x0101: "ImageHeight",
         0x8769: "ExifIFDPointer",
@@ -115,7 +115,7 @@ export class CropEXIF {
         0x8298: "Copyright"
     };
 
-    GPSTags = {
+    static GPSTags = {
         0x0000: "GPSVersionID",
         0x0001: "GPSLatitudeRef",
         0x0002: "GPSLatitude",
@@ -149,7 +149,7 @@ export class CropEXIF {
         0x001E: "GPSDifferential"
     };
 
-    StringValues = {
+    static StringValues = {
         ExposureProgram: {
             0: "Not defined",
             1: "Manual",
@@ -287,7 +287,7 @@ export class CropEXIF {
         }
     };
 
-    IptcFieldMap = {
+    static IptcFieldMap = {
         0x78: 'caption',
         0x6E: 'credit',
         0x19: 'keywords',
@@ -300,7 +300,7 @@ export class CropEXIF {
         0x0F: 'category'
     };
 
-    readIPTCData(file, startOffset, sectionLength) {
+    static readIPTCData(file, startOffset, sectionLength) {
         var dataView = new DataView(file);
         var data = {};
         var fieldValue, fieldName, dataSize, segmentType, segmentSize;
@@ -308,11 +308,11 @@ export class CropEXIF {
         while (segmentStartPos < startOffset + sectionLength) {
             if (dataView.getUint8(segmentStartPos) === 0x1C && dataView.getUint8(segmentStartPos + 1) === 0x02) {
                 segmentType = dataView.getUint8(segmentStartPos + 2);
-                if (segmentType in this.IptcFieldMap) {
+                if (segmentType in CropEXIF.IptcFieldMap) {
                     dataSize = dataView.getInt16(segmentStartPos + 3);
                     segmentSize = dataSize + 5;
-                    fieldName = this.IptcFieldMap[segmentType];
-                    fieldValue = this.getStringFromDB(dataView, segmentStartPos + 5, dataSize);
+                    fieldName = CropEXIF.IptcFieldMap[segmentType];
+                    fieldValue = CropEXIF.getStringFromDB(dataView, segmentStartPos + 5, dataSize);
                     // Check if we already stored a value with this name
                     if (data.hasOwnProperty(fieldName)) {
                         // Value already stored with this name, create multivalue field
@@ -334,7 +334,7 @@ export class CropEXIF {
         return data;
     }
 
-    readTags(file, tiffStart, dirStart, strings, bigEnd) {
+    static readTags(file, tiffStart, dirStart, strings, bigEnd) : {[key: string]: any} {
         var entries = file.getUint16(dirStart, !bigEnd),
             tags = {},
             entryOffset, tag,
@@ -344,7 +344,7 @@ export class CropEXIF {
             entryOffset = dirStart + i * 12 + 2;
             tag = strings[file.getUint16(entryOffset, !bigEnd)];
             if (tag) {
-                tags[tag] = this.readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
+                tags[tag] = CropEXIF.readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
             } else {
                 console.warn('Unknown tag: ' + file.getUint16(entryOffset, !bigEnd));
             }
@@ -352,8 +352,7 @@ export class CropEXIF {
         return tags;
     }
 
-
-    readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
+    static readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
         var type = file.getUint16(entryOffset + 2, !bigEnd),
             numValues = file.getUint32(entryOffset + 4, !bigEnd),
             valueOffset = file.getUint32(entryOffset + 8, !bigEnd) + tiffStart,
@@ -446,7 +445,7 @@ export class CropEXIF {
         }
     }
 
-    addEvent(element, event, handler) {
+    static addEvent(element, event, handler) {
         if (element.addEventListener) {
             element.addEventListener(event, handler, false);
         } else if (element.attachEvent) {
@@ -454,7 +453,7 @@ export class CropEXIF {
         }
     }
 
-    objectURLToBlob(url, callback) {
+    static objectURLToBlob(url, callback) {
         var http = new XMLHttpRequest();
         http.open("GET", url, true);
         http.responseType = "blob";
@@ -466,9 +465,9 @@ export class CropEXIF {
         http.send();
     }
 
-    handleBinaryFile(binFile, img, callback?) {
-        var data = this.findEXIFinJPEG(binFile);
-        var iptcdata = this.findIPTCinJPEG(binFile);
+    static handleBinaryFile(binFile, img, callback?) {
+        var data = CropEXIF.findEXIFinJPEG(binFile);
+        var iptcdata = CropEXIF.findIPTCinJPEG(binFile);
         img.exifdata = data || {};
         img.iptcdata = iptcdata || {};
         if (callback) {
@@ -476,7 +475,7 @@ export class CropEXIF {
         }
     }
 
-    getImageData(img, callback) {
+    static getImageData(img, callback) {
         if (img.src) {
             if (/^data\:/i.test(img.src)) { // Data URI
                 var arrayBuffer = CropEXIF.base64ToArrayBuffer(img.src);
@@ -487,7 +486,7 @@ export class CropEXIF {
                 fileReader.onload = (e) => {
                     this.handleBinaryFile(e.target.result, img, callback);
                 };
-                this.objectURLToBlob(img.src, function (blob) {
+                CropEXIF.objectURLToBlob(img.src, function (blob) {
                     fileReader.readAsArrayBuffer(blob);
                 });
             } else {
@@ -516,7 +515,7 @@ export class CropEXIF {
         }
     }
 
-    getStringFromDB(buffer, start, length) {
+    static getStringFromDB(buffer, start, length) {
         var outstr = "";
         for (var n = start; n < start + length; n++) {
             outstr += String.fromCharCode(buffer.getUint8(n));
@@ -524,7 +523,7 @@ export class CropEXIF {
         return outstr;
     }
 
-    readEXIFData(file, start) {
+    static readEXIFData(file, start) {
         if (this.getStringFromDB(file, start, 4) != "Exif") {
             console.error("Not valid EXIF data! " + this.getStringFromDB(file, start, 4));
             return false;
@@ -558,10 +557,10 @@ export class CropEXIF {
             return false;
         }
 
-        tags = this.readTags(file, tiffOffset, tiffOffset + firstIFDOffset, this.TiffTags, bigEnd);
+        tags = CropEXIF.readTags(file, tiffOffset, tiffOffset + firstIFDOffset, this.TiffTags, bigEnd);
 
         if (tags.ExifIFDPointer) {
-            exifData = this.readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, this.ExifTags, bigEnd);
+            exifData = CropEXIF.readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, this.ExifTags, bigEnd);
             for (tag in exifData) {
                 switch (tag) {
                     case "LightSource" :
@@ -617,11 +616,11 @@ export class CropEXIF {
         return tags;
     }
 
-    getData(img, callback) {
+    static getData(img, callback) {
         if ((img instanceof Image || img instanceof HTMLImageElement) && !img.complete) return false;
 
         if (!this.imageHasData(img)) {
-            this.getImageData(img, callback);
+            CropEXIF.getImageData(img, callback);
         } else {
             if (callback) {
                 callback.call(img);
@@ -630,12 +629,12 @@ export class CropEXIF {
         return true;
     };
 
-    getTag(img, tag) {
+    static getTag(img, tag) {
         if (!this.imageHasData(img)) return;
         return img.exifdata[tag];
     };
 
-    getAllTags(img) {
+    static getAllTags(img) {
         if (!this.imageHasData(img)) return {};
         var a,
             data = img.exifdata,
@@ -648,7 +647,7 @@ export class CropEXIF {
         return tags;
     };
 
-    pretty(img) {
+    static pretty(img) {
         if (!this.imageHasData(img)) return "";
         var a,
             data = img.exifdata,
@@ -670,7 +669,7 @@ export class CropEXIF {
     }
 
 
-    findEXIFinJPEG(file) {
+    static findEXIFinJPEG(file) {
         var dataView = new DataView(file);
         var maxOffset = dataView.byteLength - 4;
 
@@ -718,7 +717,7 @@ export class CropEXIF {
         }
     }
 
-    findIPTCinJPEG(file) {
+    static findIPTCinJPEG(file) {
         var dataView = new DataView(file);
 
         console.debug('Got file of length ' + file.byteLength);
@@ -764,11 +763,11 @@ export class CropEXIF {
         }
     }
 
-    readFromBinaryFile(file) {
+    static readFromBinaryFile(file) {
         return this.findEXIFinJPEG(file);
     }
 
-    imageHasData(img) {
+    static imageHasData(img) {
         return !!(img.exifdata);
     }
 

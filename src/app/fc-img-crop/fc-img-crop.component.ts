@@ -11,6 +11,7 @@ import {
     SimpleChanges
 } from '@angular/core';
 import {CropPubSub} from "./classes/crop-pubsub";
+import {CropHost} from "./classes/crop-host";
 
 @Component({
     selector: 'fc-img-crop',
@@ -40,7 +41,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     private cropHost: any;
     private observer: MutationObserver;
 
-    constructor(private CropHost, private el: ElementRef) {
+    constructor(private el: ElementRef) {
     }
 
     ngOnInit() {
@@ -48,7 +49,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
 
         // Init Crop Host
         let el = this.el.nativeElement.querySelector('canvas');
-        this.cropHost = new this.CropHost(el, {}, events);
+        this.cropHost = new CropHost(el, {}, events);
 
         // Wrapper to safely exec functions within $apply on a running $digest cycle
         var fnSafeApply = function (fn) {
