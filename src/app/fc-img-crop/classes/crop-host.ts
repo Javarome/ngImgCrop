@@ -1,6 +1,8 @@
 import {CropEXIF} from "./crop-exif";
 import {CropAreaCircle} from "./crop-area-circle";
 import {ElementRef} from "@angular/core";
+import {CropAreaSquare} from "./crop-area-square";
+import {CropArea} from "./crop-area";
 
 export class CropHost {
 
@@ -223,13 +225,13 @@ export class CropHost {
       newImage.onload = function () {
         self.events.trigger('load-done');
 
-        CropEXIF.getData(newImage, function () {
+        CropEXIF.getData(newImage, () => {
           var orientation = CropEXIF.getTag(newImage, 'Orientation');
 
           function imageDone() {
             console.debug('dims=' + cw + 'x' + ch);
             var canvasDims = self.resetCropHost(cw, ch);
-            this.setMaxDimensions(canvasDims[0], canvasDims[1]);
+            self.setMaxDimensions(canvasDims[0], canvasDims[1]);
             self.events.trigger('image-updated');
             self.events.trigger('image-ready');
           }
@@ -281,6 +283,80 @@ export class CropHost {
       newImage.src = imageSource;
     }
   }
+
+  setMaxDimensions(width, height) {
+    console.debug('setMaxDimensions(' + width + ', ' + height + ')');
+
+    if (this.image !== null) {
+      var curWidth = this.ctx.canvas.width,
+        curHeight = this.ctx.canvas.height;
+
+      var ratioNewCurWidth = this.ctx.canvas.width / curWidth,
+        ratioNewCurHeight = this.ctx.canvas.height / curHeight,
+        ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
+    }
+    this.maxCanvasDims = [width, height];
+    return this.resetCropHost(width, height);
+  }
+
+  setAreaMinSize(size) {
+    size = parseInt(size, 10);
+    if (!isNaN(size)) {
+      this.theArea.setMinSize(size);
+      this.drawScene();
+    }
+  }
+
+  setResultImageSize(size) {
+    size = parseInt(size, 10);
+    if (!isNaN(size)) {
+      this.resImgSize = size;
+    }
+  }
+
+  setResultImageFormat(format) {
+    this.resImgFormat = format;
+  }
+
+  setResultImageQuality(quality) {
+    quality = parseFloat(quality);
+    if (!isNaN(quality) && quality >= 0 && quality <= 1) {
+      this.resImgQuality = quality;
+    }
+  }
+
+  setAreaType(type) {
+    var curSize = this.theArea.getSize(),
+      curMinSize = this.theArea.getMinSize(),
+      curX = this.theArea.getX(),
+      curY = this.theArea.getY();
+
+    if (type === 'square') {
+      this.theArea = new CropAreaSquare(this.ctx, this.events);
+    } else {
+      this.theArea = new CropAreaCircle(this.ctx, this.events);
+    }
+    this.theArea.setMinSize(curMinSize);
+    this.theArea.setSize(curSize);
+    this.theArea.setX(curX);
+    this.theArea.setY(curY);
+
+    // this.resetCropHost();
+    if (this.image !== null) {
+      this.theArea.setImage(this.image);
+    }
+    this.drawScene();
+  }
+
+  getAreaDetails() {
+    return {
+      x: this.theArea.getX(),
+      y: this.theArea.getY(),
+      size: this.theArea.getSize(),
+      image: {width: this.theArea.getImage().width, height: this.theArea.getImage().height},
+      canvas: {width: this.ctx.canvas.width, height: this.ctx.canvas.height}
+    };
+  };
 
   /* Life Cycle begins */
 
