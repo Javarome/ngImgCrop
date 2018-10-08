@@ -1,5 +1,6 @@
-# NgImgCrop2
+# FcImgCrop
 
+This is an Angular (2+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
 
 ## Development server
