@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngImgCrop2": {
+    "fcImgCrop": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngImgCrop2",
+            "outputPath": "dist/fcImgCrop",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngImgCrop2:build"
+            "browserTarget": "fcImgCrop:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngImgCrop2:build:production"
+              "browserTarget": "fcImgCrop:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngImgCrop2:build"
+            "browserTarget": "fcImgCrop:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "ngImgCrop2-e2e": {
+    "fcImgCrop-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngImgCrop2:serve"
+            "devServerTarget": "fcImgCrop:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngImgCrop2:serve:production"
+              "devServerTarget": "fcImgCrop:serve:production"
             }
           }
         },

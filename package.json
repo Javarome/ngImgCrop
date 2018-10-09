@@ -4,14 +4,14 @@
     "email": "alexkaul@googlemail.com"
   },
   "name": "ng-img-crop",
-  "prettyName": "ngImgCrop",
+  "prettyName": "fcImgCrop",
   "version": "0.4.0",
   "description": "Image crop directive for Angular",
   "license": "MIT",
-  "homepage": "https://github.com/alexk111/ngImgCrop",
+  "homepage": "https://github.com/famicity/ngImgCrop",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexk111/ngImgCrop.git"
+    "url": "https://github.com/famicity/ngImgCrop#ng2"
   },
   "private": false,
   "dependencies": {
