@@ -1,5 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CropAreaDetails} from "./fc-img-crop/fc-img-crop.component";
+import {CropAreaType} from "./fc-img-crop/classes/crop-area";
+
+enum Size {
+  Small = 'small'
+}
 
 @Component({
   selector: 'app-root',
@@ -7,15 +12,15 @@ import {CropAreaDetails} from "./fc-img-crop/fc-img-crop.component";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  size = 'small';
-  type = 'circle';
+  enableCrop = true;
+  size = Size.Small;
+  type = CropAreaType.Circle;
   imageDataURI = '';
-  resImageDataURI = '';
-  resImgFormat = 'image/png';
-  resImgQuality = 1;
+  resultImageDataURI = '';
+  resultImageFormat = 'image/png';
+  resultImgQuality = 1;
   selMinSize = 100;
   resImgSize = 200;
-  enableCrop = true;
   edtImageURI: string;
   changeOnFly: boolean;
 
@@ -24,7 +29,6 @@ export class AppComponent implements OnInit {
   y: number;
   w: any;
   h: any;
-  newDetailsJSON: string;
 
   constructor(private ref: ChangeDetectorRef) {
   }
@@ -44,20 +48,7 @@ export class AppComponent implements OnInit {
   }
 
   onChange(change) {
-    console.log('onChange fired');
-
-    if (change) {
-      this.resImageDataURI = change.$dataURI;
-      console.log('Res image', this.resImageDataURI);
-    }
-    const newDetails = this.cropDetails;
-    if (newDetails && newDetails.image && newDetails.image.width) {
-      this.x = newDetails.x - newDetails.size / 2;
-      this.y = newDetails.y - newDetails.size / 2;
-      this.w = newDetails.size;
-      this.h = newDetails.size;
-      this.newDetailsJSON = JSON.stringify(newDetails, null, 2);
-    }
+    console.log('onChange fired', change);
   }
 
   onLoadBegin() {

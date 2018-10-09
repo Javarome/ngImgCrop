@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {CropPubSub} from "./classes/crop-pubsub";
 import {CropHost} from "./classes/crop-host";
-import {AreaType} from "./classes/crop-area";
+import {CropAreaType} from "./classes/crop-area";
 
 export interface CropAreaDetails {
   x: number;
@@ -25,7 +25,6 @@ export interface CropAreaDetails {
 @Component({
   selector: 'fc-img-crop',
   template: '<canvas></canvas>',
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ['fc-img-crop.component.scss']
 })
 export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
@@ -36,7 +35,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
   @Output() resultImageChange = new EventEmitter();
 
   @Input() changeOnFly;
-  @Input() areaType: AreaType;
+  @Input() areaType: CropAreaType;
   @Input() areaMinSize;
 
   @Input() areaDetails: CropAreaDetails;

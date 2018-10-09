@@ -1,6 +1,5 @@
-<script src="../../source/js/ng-img-crop.js"></script>
 <div>
-  <label><input type="checkbox" [(ngModel)]="enableCrop" ng-init="enableCrop=true"/> Add ngImgCrop to Page</label>
+  <label><input type="checkbox" [(ngModel)]="enableCrop"/> Add ngImgCrop to Page</label>
 </div>
 <div>
   Container size: <label><input type="radio" [(ngModel)]="size" value="big"/> Big</label> <label><input type="radio"
@@ -27,14 +26,14 @@
   <label>Result Image Size (Size = Width = Height): <input type="text" [(ngModel)]="resImgSize"/></label>
 </div>
 <div>
-  Result Image Format: <label><input type="radio" [(ngModel)]="resImgFormat" value="image/jpeg"/> image/jpeg</label>
-  <label><input type="radio" [(ngModel)]="resImgFormat" value="image/png"/> image/png</label> <label><input type="radio"
-    [(ngModel)]="resImgFormat" value="image/webp"/> image/webp</label>
+  Result Image Format: <label><input type="radio" [(ngModel)]="resultImageFormat" value="image/jpeg"/> image/jpeg</label>
+  <label><input type="radio" [(ngModel)]="resultImageFormat" value="image/png"/> image/png</label> <label><input type="radio"
+    [(ngModel)]="resultImageFormat" value="image/webp"/> image/webp</label>
 </div>
 <div>
-  <label>Result Image Quality (0<=X<=1): <input type="text" [(ngModel)]="resImgQuality"/></label>
+  <label>Result Image Quality (0<=X<=1): <input type="text" [(ngModel)]="resultImgQuality"/></label>
 </div>
-<form ng-show="enableCrop">
+<form [hidden]="!enableCrop">
   <label for="fileInput">Select Image:</label> <input type="file" id="fileInput"/>
   <button type="reset">Clear</button>
   <button (click)="imageDataURI='test.jpg'">Set Test Image</button>
@@ -51,13 +50,13 @@
     [ngClass]="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
   <fc-img-crop
       [image]="imageDataURI"
-      [(resultImage)]="resImageDataURI"
+      [(resultImage)]="resultImageDataURI"
       [(areaDetails)]="cropDetails"
       [changeOnFly]="changeOnFly"
       [areaType]="type"
       [areaMinSize]="selMinSize"
-      [resultImageFormat]="resImgFormat"
-      [resultImageQuality]="resImgQuality"
+      [resultImageFormat]="resultImageFormat"
+      [resultImageQuality]="resultImgQuality"
       [resultImageSize]="resImgSize"
       (onChange)="onChange($event)"
       (onLoadBegin)="onLoadBegin()"
@@ -70,7 +69,7 @@
 <div style="text-align:center">
   <h3>Result</h3>
   <div>
-    <p>The details about the circle crop are : {{newDetailsJSON}}</p>
-    <img [src]="resImageDataURI"/>
+    <img [src]="resultImageDataURI"/>
+    <p>{{cropDetails | json}}</p>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import {CropCanvas} from "./crop-canvas";
 
-export enum AreaType {
+export enum CropAreaType {
   Square = 'square',
   Circle = 'circle'
 }

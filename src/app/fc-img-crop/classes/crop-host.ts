@@ -1,7 +1,7 @@
 import {CropEXIF} from "./crop-exif";
 import {CropAreaCircle} from "./crop-area-circle";
 import {CropAreaSquare} from "./crop-area-square";
-import {AreaType, CropArea} from "./crop-area";
+import {CropAreaType, CropArea} from "./crop-area";
 import {CropAreaDetails} from "../fc-img-crop.component";
 
 export class CropHost {
@@ -120,18 +120,14 @@ export class CropHost {
     this.drawScene();
 
     return canvasDims;
-  };
+  }
 
   /**
    * Returns event.changedTouches directly if event is a TouchEvent.
    * If event is a jQuery event, return changedTouches of event.originalEvent
    */
   static getChangedTouches(event) {
-    if (event.changedTouches) {
-      return event.changedTouches;
-    } else {
-      return event.originalEvent.changedTouches;
-    }
+    return event.changedTouches ? event.changedTouches : event.originalEvent.changedTouches;
   }
 
   onMouseMove(e) {
@@ -166,7 +162,7 @@ export class CropHost {
       this.cropArea.processMouseDown(pageX - offset.left, pageY - offset.top);
       this.drawScene();
     }
-  };
+  }
 
   onMouseUp(e) {
     if (this.image !== null) {
@@ -182,7 +178,7 @@ export class CropHost {
       this.cropArea.processMouseUp(pageX - offset.left, pageY - offset.top);
       this.drawScene();
     }
-  };
+  }
 
   getResultImageDataURI() {
     var temp_canvas = <HTMLCanvasElement>document.createElement('CANVAS');
@@ -254,7 +250,6 @@ export class CropHost {
                 deg = 270;
                 break;
             }
-
             canvas.width = cw;
             canvas.height = ch;
             self.ctx.rotate(deg * Math.PI / 180);
@@ -281,7 +276,6 @@ export class CropHost {
 
   setMaxDimensions(width, height) {
     console.debug('setMaxDimensions(' + width + ', ' + height + ')');
-
     if (this.image !== null) {
       const curWidth = this.ctx.canvas.width,
         curHeight = this.ctx.canvas.height;
@@ -320,13 +314,13 @@ export class CropHost {
     }
   }
 
-  setAreaType(type: AreaType) {
+  setAreaType(type: CropAreaType) {
     const curSize = this.cropArea.getSize(),
       curMinSize = this.cropArea.getMinSize(),
       curX = this.cropArea.getX(),
       curY = this.cropArea.getY();
 
-    if (type === AreaType.Square) {
+    if (type === CropAreaType.Square) {
       this.cropArea = new CropAreaSquare(this.ctx, this.events);
     } else {
       this.cropArea = new CropAreaCircle(this.ctx, this.events);
@@ -351,11 +345,8 @@ export class CropHost {
       image: {width: this.cropArea.getImage().width, height: this.cropArea.getImage().height},
       canvas: {width: this.ctx.canvas.width, height: this.ctx.canvas.height}
     };
-  };
+  }
 
-  /* Life Cycle begins */
-
-  // Get Element's Offset
   static getElementOffset(elem) {
     var box = elem.getBoundingClientRect();
 
