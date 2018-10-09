@@ -51,11 +51,11 @@ export class CropHost {
   // CropHost Destructor
   destroy() {
     document.removeEventListener('mousemove', this.onMouseMove);
-    this.elCanvas.off('mousedown', this.onMouseDown);
+    this.elCanvas.removeEventListener('mousedown', this.onMouseDown);
     document.removeEventListener('mouseup', this.onMouseMove);
 
     document.removeEventListener('touchmove', this.onMouseMove);
-    this.elCanvas.off('touchstart', this.onMouseDown);
+    this.elCanvas.removeEventListener('touchstart', this.onMouseDown);
     document.removeEventListener('touchend', this.onMouseMove);
 
     this.elCanvas.remove();
