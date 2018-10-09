@@ -1,12 +1,9 @@
 import {CropEXIF} from "./crop-exif";
 import {CropAreaCircle} from "./crop-area-circle";
-import {ElementRef} from "@angular/core";
 import {CropAreaSquare} from "./crop-area-square";
-import {CropArea} from "./crop-area";
+import {AreaType} from "./crop-area";
 
 export class CropHost {
-
-  /* PRIVATE VARIABLES */
 
   // Object Pointers
   ctx = null;
@@ -45,7 +42,6 @@ export class CropHost {
     document.addEventListener('touchmove', this.onMouseMove.bind(this));
     elCanvas.addEventListener('touchstart', this.onMouseDown.bind(this));
     document.addEventListener('touchend', this.onMouseUp.bind(this));
-
   }
 
   // CropHost Destructor
@@ -108,17 +104,17 @@ export class CropHost {
       var h = Math.floor(canvasDims[1]);
       canvasDims[0] = w;
       canvasDims[1] = h;
-      console.log('canvas reset =' + w + 'x' + h);
-      this.elCanvas.width = w;
-      this.elCanvas.height = h;
+      console.debug('canvas reset =' + w + 'x' + h);
+      this.elCanvas.style.width = w;
+      this.elCanvas.style.height = h;
       this.elCanvas.style.marginLeft = -w / 2 + 'px';
       this.elCanvas.style.marginTop = -h / 2 + 'px';
       this.theArea.setX(this.ctx.canvas.width / 2);
       this.theArea.setY(this.ctx.canvas.height / 2);
       this.theArea.setSize(Math.min(200, this.ctx.canvas.width / 2, this.ctx.canvas.height / 2));
     } else {
-      this.elCanvas.width = 0;
-      this.elCanvas.height = 0;
+      this.elCanvas.style.width = 0;
+      this.elCanvas.style.height = 0;
       this.elCanvas.style.marginTop = 0;
     }
 
@@ -236,7 +232,7 @@ export class CropHost {
             self.events.trigger('image-ready');
           }
 
-          if ([3, 6, 8].indexOf(orientation) > -1) {
+          if ([3, 6, 8].indexOf(orientation) >= 0) {
             var canvas = document.createElement("canvas"),
               ctx = canvas.getContext("2d"),
               cw = newImage.width, ch = newImage.height, cx = 0, cy = 0, deg = 0;
@@ -325,13 +321,13 @@ export class CropHost {
     }
   }
 
-  setAreaType(type) {
-    var curSize = this.theArea.getSize(),
+  setAreaType(type: AreaType) {
+    const curSize = this.theArea.getSize(),
       curMinSize = this.theArea.getMinSize(),
       curX = this.theArea.getX(),
       curY = this.theArea.getY();
 
-    if (type === 'square') {
+    if (type === AreaType.Square) {
       this.theArea = new CropAreaSquare(this.ctx, this.events);
     } else {
       this.theArea = new CropAreaCircle(this.ctx, this.events);
