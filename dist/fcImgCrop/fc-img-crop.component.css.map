@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,KAAM;EACJ,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,KAAK;EACd,QAAQ,EAAE,QAAQ;EAClB,QAAQ,EAAE,MAAM;EAEhB,YAAO;IACL,OAAO,EAAE,KAAK;IACd,QAAQ,EAAE,QAAQ;IAClB,GAAG,EAAE,GAAG;IACR,IAAI,EAAE,GAAG;IAGT,2BAA2B,EAAE,sBAAsB;IAAE,mBAAmB",
-"sources": ["fc-img-crop.component.scss"],
-"names": [],
-"file": "fc-img-crop.component.css"
-}
