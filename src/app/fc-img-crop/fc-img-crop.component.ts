@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import {CropPubSub} from "./classes/crop-pubsub";
 import {CropHost} from "./classes/crop-host";
+import {AreaType} from "./classes/crop-area";
 
 @Component({
   selector: 'fc-img-crop',
@@ -24,7 +25,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
   @Input() resultImage;
 
   @Input() changeOnFly;
-  @Input() areaType: string;
+  @Input() areaType: AreaType;
   @Input() areaMinSize;
   @Input() areaDetails;
   @Input() resultImageSize;
@@ -93,13 +94,13 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
 
   }
 
-  updateResultImage() {
-    // Store Result Image to check if it's changed
-    var storedResultImage;
+  // Store Result Image to check if it's changed
+  storedResultImage;
 
+  updateResultImage() {
     var resultImage = this.cropHost.getResultImageDataURI();
-    if (storedResultImage !== resultImage) {
-      storedResultImage = resultImage;
+    if (this.storedResultImage !== resultImage) {
+      this.storedResultImage = resultImage;
       if (this.resultImage) {
         this.resultImage = resultImage;
       }
@@ -109,12 +110,13 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     }
   }
 
-  // Destroy CropHost Instance when the directive is destroying
   ngOnDestroy(): void {
     this.cropHost.destroy();
   }
 
-  // Sync CropHost with Directive's options
+  /**
+   * Sync CropHost with Directive's options
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (this.cropHost) {
       if (changes.image) {
