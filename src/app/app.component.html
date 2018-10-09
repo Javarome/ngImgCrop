@@ -51,8 +51,8 @@
     [ngClass]="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
   <fc-img-crop
       [image]="imageDataURI"
-      [resultImage]="resImageDataURI"
-      [areaDetails]="cropDetails"
+      [(resultImage)]="resImageDataURI"
+      [(areaDetails)]="cropDetails"
       [changeOnFly]="changeOnFly"
       [areaType]="type"
       [areaMinSize]="selMinSize"
@@ -70,7 +70,7 @@
 <div style="text-align:center">
   <h3>Result</h3>
   <div>
-    <p>The details about the circle crop are : {{cropDetails}}</p>
+    <p>The details about the circle crop are : {{newDetailsJSON}}</p>
     <img [src]="resImageDataURI"/>
   </div>
 </div>

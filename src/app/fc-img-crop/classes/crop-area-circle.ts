@@ -111,7 +111,7 @@ export class CropAreaCircle extends CropArea {
     return res;
   };
 
-  processMouseDown(mouseDownX, mouseDownY) {
+  processMouseDown(mouseDownX: number, mouseDownY: number) {
     if (this._isCoordWithinBoxResize([mouseDownX, mouseDownY])) {
       this._areaIsDragging = false;
       this._areaIsHover = false;

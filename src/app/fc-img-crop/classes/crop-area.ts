@@ -43,7 +43,7 @@ export abstract class CropArea {
     this._dontDragOutside();
   };
 
-  getSize() {
+  getSize() : number {
     return this._size;
   };
 
@@ -91,9 +91,9 @@ export abstract class CropArea {
     this._cropCanvas.drawCropArea(this._image, [this._x, this._y], this._size, this._drawArea);
   };
 
-  abstract processMouseMove(mouseCurX, mouseCurY);
+  abstract processMouseMove(mouseCurX: number, mouseCurY: number);
 
-  abstract processMouseDown(mouseDownX, mouseDownY);
+  abstract processMouseDown(mouseDownX: number, mouseDownY: number);
 
-  abstract processMouseUp();
+  abstract processMouseUp(mouseDownX: number, mouseDownY: number);
 }

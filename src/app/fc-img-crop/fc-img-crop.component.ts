@@ -8,26 +8,40 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges, ViewEncapsulation
 } from '@angular/core';
 import {CropPubSub} from "./classes/crop-pubsub";
 import {CropHost} from "./classes/crop-host";
 import {AreaType} from "./classes/crop-area";
 
+export interface CropAreaDetails {
+  x: number;
+  y: number;
+  size: number;
+  image: { width: number, height: number };
+  canvas: { width: number, height: number };
+}
+
 @Component({
   selector: 'fc-img-crop',
   template: '<canvas></canvas>',
-  styleUrls: ['./fc-img-crop.component.scss']
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['fc-img-crop.component.scss']
 })
 export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
   @Input() image;
+
   @Input() resultImage;
+  @Output() resultImageChange = new EventEmitter();
 
   @Input() changeOnFly;
   @Input() areaType: AreaType;
   @Input() areaMinSize;
-  @Input() areaDetails;
+
+  @Input() areaDetails: CropAreaDetails;
+  @Output() areaDetailsChange = new EventEmitter<CropAreaDetails>();
+
   @Input() resultImageSize;
   @Input() resultImageFormat: string;
   @Input() resultImageQuality;
@@ -51,13 +65,6 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     // Init Crop Host
     let el = this.el.nativeElement.querySelector('canvas');
     this.cropHost = new CropHost(el, {}, events);
-
-    // Wrapper to safely exec functions within $apply on a running $digest cycle
-    var fnSafeApply = (fn) => {
-      return () => {
-        fn(this);
-      };
-    };
 
     // Setup CropHost Event Handlers
     const self = this;
@@ -89,20 +96,20 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
       .on('area-move-end area-resize-end image-updated', () => {
         self.updateResultImage();
         self.areaDetails = self.cropHost.getAreaDetails();
-        self.ref.detectChanges();
+        self.areaDetailsChange.emit(self.areaDetails);
       });
-
   }
 
   // Store Result Image to check if it's changed
   storedResultImage;
 
   updateResultImage() {
-    var resultImage = this.cropHost.getResultImageDataURI();
+    const resultImage = this.cropHost.getResultImageDataURI();
     if (this.storedResultImage !== resultImage) {
       this.storedResultImage = resultImage;
-      if (this.resultImage) {
-        this.resultImage = resultImage;
+      this.resultImage = resultImage;
+      if (this.resultImageChange.observers.length) {
+        this.resultImageChange.emit(this.resultImage);
       }
       if (this.onChange.observers.length > 0) {
         this.onChange.emit({$dataURI: this.resultImage});
@@ -154,8 +161,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
         }
       });
     });
-    var config = {attributes: true, childList: true, characterData: true};
-
+    const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(this.el.nativeElement, config);
   }
 }
