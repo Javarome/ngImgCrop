@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, OnChanges {
     enableCrop = true;
     edtImageURI: string;
     changeOnFly: boolean;
+    cropDetails: {};
 
     constructor(private ref: ChangeDetectorRef) {
     }

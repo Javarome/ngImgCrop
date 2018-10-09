@@ -52,6 +52,7 @@
   <fc-img-crop
       [image]="imageDataURI"
       [resultImage]="resImageDataURI"
+      [areaDetails]="cropDetails"
       [changeOnFly]="changeOnFly"
       [areaType]="type"
       [areaMinSize]="selMinSize"
@@ -69,6 +70,7 @@
 <div style="text-align:center">
   <h3>Result</h3>
   <div>
+    <p>The details about the circle crop are : {{cropDetails}}</p>
     <img [src]="resImageDataURI"/>
   </div>
 </div>
