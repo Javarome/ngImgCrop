@@ -121,7 +121,42 @@
           }
         }
       }
+    },
+    "fc-img-crop": {
+      "root": "projects/fc-img-crop",
+      "sourceRoot": "projects/fc-img-crop/src",
+      "projectType": "library",
+      "prefix": "fc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/fc-img-crop/tsconfig.lib.json",
+            "project": "projects/fc-img-crop/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/fc-img-crop/src/test.ts",
+            "tsConfig": "projects/fc-img-crop/tsconfig.spec.json",
+            "karmaConfig": "projects/fc-img-crop/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/fc-img-crop/tsconfig.lib.json",
+              "projects/fc-img-crop/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "ngImgCrop2"
+  "defaultProject": "fcImgCrop"
 }

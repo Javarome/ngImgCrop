@@ -3,7 +3,10 @@
     "name": "Alex Kaul",
     "email": "alexkaul@googlemail.com"
   },
-  "name": "ng-img-crop",
+  "contributors": [
+    "Jérôme Beau <javarome@gmail.com> (http://javarome.github.com)"
+  ],
+  "name": "fc-img-crop",
   "prettyName": "fcImgCrop",
   "version": "0.4.0",
   "description": "Image crop directive for Angular",
@@ -30,6 +33,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",
+    "@angular-devkit/build-ng-packagr": "~0.8.0",
     "@angular/cli": "~6.2.4",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
@@ -47,6 +51,8 @@
     "ng-packagr": "^4.3.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
+    "tsickle": ">=0.29.0",
+    "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2"
   },

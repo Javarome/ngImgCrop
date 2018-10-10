@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {CropAreaDetails} from "./fc-img-crop/fc-img-crop.component";
-import {CropAreaType} from "./fc-img-crop/classes/crop-area";
+import {CropAreaType} from "../../projects/fc-img-crop/src/lib/classes/crop-area";
+import {CropAreaDetails} from "../../projects/fc-img-crop/src/lib/fc-img-crop.component";
 
 enum Size {
   Small = 'small'
