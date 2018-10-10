@@ -2,13 +2,16 @@
 
 This is an Angular (2+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the `src/app` test project, which uses the component. 
+The build artifacts will be stored in the `dist/` directory. 
+Use the `--prod` flag for a production build.
+
+## Development server
+
+Run `ng serve` for a dev server that (re)builds at every change of the source files. 
+Navigate to `http://localhost:4200/` to access the test app. 
 
 ## Packaging
 
@@ -37,23 +40,23 @@ then the components of this module will be able to use the crop component in the
 
 ```html
 <fc-img-crop
-      [image]="imageDataURI"
-      [(resultImage)]="resultImageDataURI"
-      [(areaDetails)]="cropDetails"
-      [changeOnFly]="changeOnFly"
-      [areaType]="type"
-      [areaMinSize]="selMinSize"
-      [resultImageFormat]="resultImageFormat"
-      [resultImageQuality]="resultImgQuality"
-      [resultImageSize]="resImgSize"
-      (onChange)="onChange($event)"
-      (onLoadBegin)="onLoadBegin()"
-      (onLoadDone)="onLoadDone()"
-      (onLoadError)="onLoadError()"
-  ></fc-img-crop>
+  [image]="imageDataURI"
+  [(resultImage)]="resultImageDataURI"
+  [(areaDetails)]="cropDetails"
+  [changeOnFly]="changeOnFly"
+  [areaType]="type"
+  [areaMinSize]="selMinSize"
+  [resultImageFormat]="resultImageFormat"
+  [resultImageQuality]="resultImgQuality"
+  [resultImageSize]="resImgSize"
+  (onChange)="onChange($event)"
+  (onLoadBegin)="onLoadBegin()"
+  (onLoadDone)="onLoadDone()"
+  (onLoadError)="onLoadError()"
+></fc-img-crop>
 ```
 
-See the sample `/app` for an example.
+See the sample `src/app` for an example.
 
 ## Running unit tests
 
