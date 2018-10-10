@@ -1,6 +1,6 @@
 # FcImgCrop
 
-This is an Angular (2+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
+This is an Angular (2+) version of the forked [ngImgCrop](https://github.com/famicity/ngImgCrop).
 
 ## Development server
 
