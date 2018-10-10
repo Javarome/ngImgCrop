@@ -2,18 +2,7 @@
 
 This is an Angular (2+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
 
-## Build
-
-Run `ng build` to build the `src/app` test project, which uses the component. 
-The build artifacts will be stored in the `dist/` directory. 
-Use the `--prod` flag for a production build.
-
-## Development server
-
-Run `ng serve` for a dev server that (re)builds at every change of the source files. 
-Navigate to `http://localhost:4200/` to access the test app. 
-
-## Packaging
+## Build the component
 
 Run `ng build fc-img-crop` to build the (npm) library project. The build artifacts will be stored in the `dist/` directory.
 
@@ -56,7 +45,18 @@ then the components of this module will be able to use the crop component in the
 ></fc-img-crop>
 ```
 
-See the sample `src/app` for an example.
+See the test app for an example.
+
+## Build the test app
+
+Run `ng build` to build the `src/app` test project, which uses the component. 
+The build artifacts will be stored in the `dist/` directory. 
+Use the `--prod` flag for a production build.
+
+## Development server
+
+Run `ng serve` for a dev server that (re)builds the test app at every change of the source files. 
+Navigate to `http://localhost:4200/` to access the test app. 
 
 ## Running unit tests
 
