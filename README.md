@@ -1,6 +1,6 @@
 # FcImgCrop
 
-This is an Angular (2+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
+This is an Angular (6+) version of [ngImgCrop](https://github.com/famicity/ngImgCrop).
 
 ## Build the component
 
@@ -15,7 +15,7 @@ import {CropModule} from "fc-img-crop";
 
 @NgModule({
   declarations: [
-    YourComponent,
+    YourComponent
   ],
   imports: [
     CropModule

@@ -49,19 +49,19 @@
 <div *ngIf="enableCrop" class="cropArea"
     [ngClass]="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
   <fc-img-crop
-      [image]="imageDataURI"
-      [(resultImage)]="resultImageDataURI"
-      [(areaDetails)]="cropDetails"
-      [changeOnFly]="changeOnFly"
-      [areaType]="type"
-      [areaMinSize]="selMinSize"
-      [resultImageFormat]="resultImageFormat"
-      [resultImageQuality]="resultImgQuality"
-      [resultImageSize]="resImgSize"
-      (onChange)="onChange($event)"
-      (onLoadBegin)="onLoadBegin()"
-      (onLoadDone)="onLoadDone()"
-      (onLoadError)="onLoadError()"
+    [image]="imageDataURI"
+    [(resultImage)]="resultImageDataURI"
+    [(areaDetails)]="cropDetails"
+    [changeOnFly]="changeOnFly"
+    [areaType]="type"
+    [areaMinSize]="selMinSize"
+    [resultImageFormat]="resultImageFormat"
+    [resultImageQuality]="resultImgQuality"
+    [resultImageSize]="resImgSize"
+    (onChange)="onChange($event)"
+    (onLoadBegin)="onLoadBegin()"
+    (onLoadDone)="onLoadDone()"
+    (onLoadError)="onLoadError()"
   ></fc-img-crop>
   <!--aspect-ratio="aspectRatio"-->
 </div>
