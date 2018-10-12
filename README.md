@@ -44,6 +44,7 @@ import {CropAreaDetails, CropAreaType} from "fc-img-crop";
       [resultImageFormat]="resultImageFormat"
       [resultImageQuality]="resultImgQuality"
       [resultImageSize]="resImgSize"
+      [changeOnFly]="true"
       (onChange)="onChange($event)"
       (onLoadBegin)="onLoadBegin()"
       (onLoadDone)="onLoadDone()"
