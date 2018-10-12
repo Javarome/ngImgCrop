@@ -1,14 +1,14 @@
 {
   "author": {
-    "name": "Alex Kaul",
-    "email": "alexkaul@googlemail.com"
+    "name": "Jérôme Beau",
+    "email": "javarome@gmail.com"
   },
   "contributors": [
-    "Jérôme Beau <javarome@gmail.com> (http://javarome.github.com)"
+    "Alex Kaul <alexkaul@googlemail.com>"
   ],
   "name": "fc-img-crop",
   "prettyName": "fcImgCrop",
-  "version": "0.4.0",
+  "version": "1.0.2",
   "description": "Image crop directive for Angular",
   "license": "MIT",
   "homepage": "https://github.com/famicity/ngImgCrop",
@@ -60,6 +60,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "package": "ng build fc-img-crop",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
