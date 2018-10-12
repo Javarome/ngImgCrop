@@ -34,7 +34,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
   @Input() resultImage;
   @Output() resultImageChange = new EventEmitter();
 
-  @Input() changeOnFly;
+  @Input() changeOnFly : boolean;
   @Input() areaType: CropAreaType;
   @Input() areaMinSize;
 
@@ -53,7 +53,8 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
 
   private events = new CropPubSub();
   private cropHost: CropHost;
-  private observer: MutationObserver;
+  private elementObserver: MutationObserver;
+  private containerObserver: MutationObserver;
 
   constructor(private el: ElementRef, private ref: ChangeDetectorRef) {
   }
@@ -87,7 +88,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
         self.ref.detectChanges();
       })
       .on('area-move area-resize', () => {
-        if (!!self.changeOnFly) {
+        if (Boolean(self.changeOnFly)) {
           self.updateResultImage();
           self.ref.detectChanges();
         }
@@ -118,6 +119,8 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
 
   ngOnDestroy(): void {
     this.cropHost.destroy();
+    this.elementObserver.disconnect();
+    this.containerObserver.disconnect();
   }
 
   /**
@@ -151,16 +154,37 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     }
   }
 
+  private lastClientWidth: number;
+  private lastClientHeight: number;
+
   ngAfterViewInit(): void {
-    this.observer = new MutationObserver(mutations => {
+    const element = this.el.nativeElement;
+    this.lastClientWidth = element.clientWidth;
+    this.lastClientHeight = element.clientHeight;
+    const observerConfig = {attributes: true, childList: true, characterData: true};
+    this.elementObserver = new MutationObserver(mutations => {
       mutations.forEach((mutation: MutationRecord) => {
         if (mutation.attributeName === 'clientWidth' || mutation.attributeName === 'clientHeight') {
-          this.cropHost.setMaxDimensions(this.el.nativeElement.clientWidth, this.el.nativeElement.clientHeight);
-          this.updateResultImage();
+          this.sizeChanged();
         }
       });
     });
-    const config = {attributes: true, childList: true, characterData: true};
-    this.observer.observe(this.el.nativeElement, config);
+    this.elementObserver.observe(element, observerConfig);
+
+    // We need to observe container size if element is set as 100% for instance
+    this.containerObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (element.clientWidth != this.lastClientWidth || element.clientHeight != this.lastClientHeight) {
+          this.sizeChanged();
+        }
+      });
+    });
+    this.containerObserver.observe(element.parentElement, observerConfig);
+  }
+
+  private sizeChanged() {
+    const element = this.el.nativeElement;
+    this.cropHost.setMaxDimensions(element.clientWidth, element.clientHeight);
+    this.updateResultImage();
   }
 }
