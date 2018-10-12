@@ -7,7 +7,7 @@
     "Alex Kaul <alexkaul@googlemail.com>"
   ],
   "name": "fc-img-crop",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Image crop component for Angular",
   "license": "MIT",
   "homepage": "https://github.com/famicity/ngImgCrop/tree/ng2",
