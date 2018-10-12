@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {CropAreaType} from "../../projects/fc-img-crop/src/lib/classes/crop-area";
-import {CropAreaDetails} from "../../projects/fc-img-crop/src/lib/fc-img-crop.component";
+import {CropAreaType} from "fc-img-crop";
+import {CropAreaDetails} from "fc-img-crop";
 
 enum Size {
   Small = 'small'
@@ -25,10 +25,6 @@ export class AppComponent implements OnInit {
   changeOnFly: boolean;
 
   cropDetails: CropAreaDetails;
-  x: number;
-  y: number;
-  w: any;
-  h: any;
 
   constructor(private ref: ChangeDetectorRef) {
   }
