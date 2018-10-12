@@ -275,7 +275,7 @@ export class CropHost {
   }
 
   setMaxDimensions(width, height) {
-    console.debug('setMaxDimensions(' + width + ', ' + height + ')');
+    console.debug(`setMaxDimensions(${width}, ${height})`);
     if (this.image !== null) {
       const curWidth = this.ctx.canvas.width,
         curHeight = this.ctx.canvas.height;

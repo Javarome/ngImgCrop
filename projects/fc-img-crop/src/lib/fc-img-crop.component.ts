@@ -154,13 +154,8 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     }
   }
 
-  private lastClientWidth: number;
-  private lastClientHeight: number;
-
   ngAfterViewInit(): void {
     const element = this.el.nativeElement;
-    this.lastClientWidth = element.clientWidth;
-    this.lastClientHeight = element.clientHeight;
     const observerConfig = {attributes: true, childList: true, characterData: true};
     this.elementObserver = new MutationObserver(mutations => {
       mutations.forEach((mutation: MutationRecord) => {
@@ -174,7 +169,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     // We need to observe container size if element is set as 100% for instance
     this.containerObserver = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
-        if (element.clientWidth != this.lastClientWidth || element.clientHeight != this.lastClientHeight) {
+        if (element.clientWidth != this.cropHost.maxCanvasDims[0] || element.clientHeight != this.cropHost.maxCanvasDims[1]) {
           this.sizeChanged();
         }
       });
