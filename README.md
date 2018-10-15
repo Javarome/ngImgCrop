@@ -11,14 +11,14 @@ Run `ng build fc-img-crop` to build the (npm) library project. The build artifac
 In the module of your choice, import the crop module:
 
 ```js
-import {CropModule} from "fc-img-crop";
+import {FcImgCropModule} from "fc-img-crop";
 
 @NgModule({
   declarations: [
     YourComponent
   ],
   imports: [
-    CropModule
+    FcImgCropModule
   ]
 })
 export class YourModule {

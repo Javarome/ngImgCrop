@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {FormsModule} from "@angular/forms";
-import {CropModule} from "fc-img-crop";
+import {FcImgCropModule} from "fc-img-crop";
 
 @NgModule({
   declarations: [
@@ -12,7 +12,7 @@ import {CropModule} from "fc-img-crop";
   imports: [
     BrowserModule,
     FormsModule,
-    CropModule
+    FcImgCropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

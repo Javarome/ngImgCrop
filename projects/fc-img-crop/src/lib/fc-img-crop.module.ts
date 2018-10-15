@@ -11,5 +11,5 @@ export {CropAreaType} from "./classes/crop-area";
     FcImgCropComponent
   ]
 })
-export class CropModule {
+export class FcImgCropModule {
 }

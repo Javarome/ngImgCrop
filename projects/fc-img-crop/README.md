@@ -7,14 +7,14 @@ This is an Angular (6+) version of [ngImgCrop](https://github.com/famicity/ngImg
 In the module of your choice, import the crop module:
 
 ```js
-import {CropModule} from "fc-img-crop";
+import {FcImgCropModule} from "fc-img-crop";
 
 @NgModule({
   declarations: [
     YourComponent
   ],
   imports: [
-    CropModule
+    FcImgCropModule
   ]
 })
 export class YourModule {
