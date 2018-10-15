@@ -167,12 +167,6 @@ Assignable angular expression to data-bind to. NgImgCrop puts a data uri of a cr
 
 *Optional*. Expression to evaluate when the source image didn't load.
 
-## Build
-
-Install npm dependencies: `npm install` and the required ruby gem: `gem install compass`.
-
-And build: `npm run build`.
-
 ## License
 
 See the [LICENSE](https://github.com/Javarome/ngImgCrop/blob/master/LICENSE) file.
