@@ -155,6 +155,8 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
   }
 
   ngAfterViewInit(): void {
+    this.sizeChanged();   // Make sure size is up to date
+
     const element = this.el.nativeElement;
     const observerConfig = {attributes: true, childList: true, characterData: true};
     this.elementObserver = new MutationObserver(mutations => {
