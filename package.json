@@ -8,7 +8,7 @@
   ],
   "name": "fc-img-crop",
   "prettyName": "fcImgCrop",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Image crop directive for Angular",
   "license": "MIT",
   "homepage": "https://github.com/famicity/ngImgCrop",
