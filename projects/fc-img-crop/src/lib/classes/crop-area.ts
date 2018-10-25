@@ -1,6 +1,6 @@
 import {CropCanvas} from "./crop-canvas";
 
-export enum CropAreaType {
+export enum FcImgCropAreaType {
   Square = 'square',
   Circle = 'circle'
 }

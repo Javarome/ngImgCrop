@@ -1,3 +1,17 @@
+export enum FcImgCropEvent {
+  LoadStart = 'load-start',
+  LoadError = 'load-error',
+  LoadDone = 'load-done',
+  ImageReady = 'image-ready',
+  ImageUpdated = 'image-updated',
+  AreaResizeStart = 'area-resize-start',
+  AreaResize = 'area-resize',
+  AreaResizeEnd = 'area-resize-end',
+  AreaMoveStart = 'area-move-start',
+  AreaMove = 'area-move',
+  AreaMoveEnd = 'area-move-end',
+}
+
 export class CropPubSub {
   private events = {};
 
@@ -12,8 +26,8 @@ export class CropPubSub {
   };
 
   // Publish
-  trigger(name: string, args: any[]) {
-    const listeners = this.events[name];
+  trigger(event: FcImgCropEvent, args?: any[]) {
+    const listeners = this.events[event];
     if (listeners) {
       listeners.forEach(handler => {
         handler.call(null, args);

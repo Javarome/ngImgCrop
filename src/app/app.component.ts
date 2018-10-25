@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {CropAreaType} from "fc-img-crop";
-import {CropAreaDetails} from "fc-img-crop";
+import {FcImgCropAreaType} from "fc-img-crop";
+import {FcImgCropAreaDetails} from "fc-img-crop";
 
 enum Size {
   Small = 'small'
@@ -14,7 +14,7 @@ enum Size {
 export class AppComponent implements OnInit {
   enableCrop = true;
   size = Size.Small;
-  type = CropAreaType.Circle;
+  type = FcImgCropAreaType.Circle;
   imageDataURI = '';
   resultImageDataURI = '';
   resultImageFormat = 'image/png';
@@ -22,9 +22,9 @@ export class AppComponent implements OnInit {
   selMinSize = 100;
   resImgSize = 200;
   edtImageURI: string;
-  changeOnFly: boolean;
+  changeOnFly = true;
 
-  cropDetails: CropAreaDetails;
+  cropDetails: FcImgCropAreaDetails;
 
   constructor(private ref: ChangeDetectorRef) {
   }

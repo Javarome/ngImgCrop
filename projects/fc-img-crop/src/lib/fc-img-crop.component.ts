@@ -10,11 +10,11 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {CropPubSub} from "./classes/crop-pubsub";
+import {CropPubSub, FcImgCropEvent} from "./classes/crop-pubsub";
 import {CropHost} from "./classes/crop-host";
-import {CropAreaType} from "./classes/crop-area";
+import {FcImgCropAreaType} from "./classes/crop-area";
 
-export interface CropAreaDetails {
+export interface FcImgCropAreaDetails {
   x: number;
   y: number;
   size: number;
@@ -29,21 +29,27 @@ export interface CropAreaDetails {
 })
 export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
-  @Input() image;
+  /**
+   * In Data URI format
+   */
+  @Input() image: string;
 
-  @Input() resultImage;
+  /**
+   * In Data URI format
+   */
+  @Input() resultImage: string;
   @Output() resultImageChange = new EventEmitter();
 
   @Input() changeOnFly : boolean;
-  @Input() areaType: CropAreaType;
-  @Input() areaMinSize;
+  @Input() areaType: FcImgCropAreaType;
+  @Input() areaMinSize: number;
 
-  @Input() areaDetails: CropAreaDetails;
-  @Output() areaDetailsChange = new EventEmitter<CropAreaDetails>();
+  @Input() areaDetails: FcImgCropAreaDetails;
+  @Output() areaDetailsChange = new EventEmitter<FcImgCropAreaDetails>();
 
-  @Input() resultImageSize;
+  @Input() resultImageSize: number;
   @Input() resultImageFormat: string;
-  @Input() resultImageQuality;
+  @Input() resultImageQuality: number;
 
   @Output() onChange = new EventEmitter();
   @Output() onLoadBegin = new EventEmitter();
@@ -56,7 +62,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
   private elementObserver: MutationObserver;
   private containerObserver: MutationObserver;
 
-  constructor(private el: ElementRef, private ref: ChangeDetectorRef) {
+  constructor(private el: ElementRef) {
   }
 
   ngOnInit() {
@@ -69,31 +75,26 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     // Setup CropHost Event Handlers
     const self = this;
     events
-      .on('load-start', () => {
+      .on(FcImgCropEvent.LoadStart, () => {
         self.onLoadBegin.emit({});
-        self.ref.detectChanges();
       })
-      .on('load-done', () => {
+      .on(FcImgCropEvent.LoadDone, () => {
         self.onLoadDone.emit({});
-        self.ref.detectChanges();
       })
-      .on('image-ready', () => {
+      .on(FcImgCropEvent.ImageReady, () => {
         if (self.onImageReady.emit({})) {
           self.cropHost.redraw();
-          self.ref.detectChanges();
         }
       })
-      .on('load-error', () => {
+      .on(FcImgCropEvent.LoadError, () => {
         self.onLoadError.emit({});
-        self.ref.detectChanges();
       })
-      .on('area-move area-resize', () => {
+      .on(`${FcImgCropEvent.AreaMove} ${FcImgCropEvent.AreaResize}`, () => {
         if (Boolean(self.changeOnFly)) {
           self.updateResultImage();
-          self.ref.detectChanges();
         }
       })
-      .on('area-move-end area-resize-end image-updated', () => {
+      .on(`${FcImgCropEvent.AreaMoveEnd} ${FcImgCropEvent.AreaResizeEnd} ${FcImgCropEvent.ImageUpdated}`, () => {
         self.updateResultImage();
         self.areaDetails = self.cropHost.getAreaDetails();
         self.areaDetailsChange.emit(self.areaDetails);
@@ -130,6 +131,7 @@ export class FcImgCropComponent implements OnChanges, OnInit, AfterViewInit, OnD
     if (this.cropHost) {
       if (changes.image) {
         this.cropHost.setNewImageSource(this.image);
+        this.sizeChanged();
       }
       if (changes.areaType) {
         this.cropHost.setAreaType(this.areaType);

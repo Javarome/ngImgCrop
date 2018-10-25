@@ -1,8 +1,9 @@
 import {CropEXIF} from "./crop-exif";
 import {CropAreaCircle} from "./crop-area-circle";
 import {CropAreaSquare} from "./crop-area-square";
-import {CropAreaType, CropArea} from "./crop-area";
-import {CropAreaDetails} from "../fc-img-crop.component";
+import {FcImgCropAreaType, CropArea} from "./crop-area";
+import {FcImgCropAreaDetails} from "../fc-img-crop.component";
+import {CropPubSub, FcImgCropEvent} from "./crop-pubsub";
 
 export class CropHost {
 
@@ -22,7 +23,7 @@ export class CropHost {
 
   private element: any;
 
-  constructor(private elCanvas, private opts, private events) {
+  constructor(private elCanvas: HTMLCanvasElement, private opts, private events: CropPubSub) {
     this.element = elCanvas.parentElement;
 
     this.ctx = elCanvas.getContext('2d');
@@ -113,8 +114,8 @@ export class CropHost {
     } else {
       this.elCanvas.width = 0;
       this.elCanvas.height = 0;
-      this.elCanvas.style.marginLeft = 0;
-      this.elCanvas.style.marginTop = 0;
+      this.elCanvas.style.marginLeft = '0';
+      this.elCanvas.style.marginTop = '0';
     }
 
     this.drawScene();
@@ -206,7 +207,7 @@ export class CropHost {
   setNewImageSource(imageSource) {
     this.image = null;
     this.resetCropHost();
-    this.events.trigger('image-updated');
+    this.events.trigger(FcImgCropEvent.ImageUpdated);
     if (!!imageSource) {
       var newImage = new Image();
       if (imageSource.substring(0, 4).toLowerCase() === 'http') {
@@ -214,23 +215,25 @@ export class CropHost {
       }
       const self = this;
       newImage.onload = function () {
-        self.events.trigger('load-done');
+        self.events.trigger(FcImgCropEvent.LoadDone);
 
         CropEXIF.getData(newImage, () => {
           var orientation = CropEXIF.getTag(newImage, 'Orientation');
           let cw = newImage.width, ch = newImage.height, cx = 0, cy = 0, deg = 0;
 
           function imageDone() {
-            console.debug('dims=' + cw + 'x' + ch);
+            console.debug(`dims=${cw}x${ch}`);
             var canvasDims = self.resetCropHost(cw, ch);
-            self.setMaxDimensions(canvasDims[0], canvasDims[1]);
-            self.events.trigger('image-updated');
-            self.events.trigger('image-ready');
+            let width = canvasDims[0];
+            let height = canvasDims[1];
+            self.setMaxDimensions(width, height);
+            self.events.trigger(FcImgCropEvent.ImageUpdated);
+            self.events.trigger(FcImgCropEvent.ImageReady);
           }
 
           if ([3, 6, 8].indexOf(orientation) >= 0) {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
             switch (orientation) {
               case 3:
                 cx = -newImage.width;
@@ -267,14 +270,14 @@ export class CropHost {
         });
       };
       newImage.onerror = error => {
-        this.events.trigger('load-error', [error]);
+        this.events.trigger(FcImgCropEvent.LoadError, [error]);
       };
-      this.events.trigger('load-start');
+      this.events.trigger(FcImgCropEvent.LoadStart);
       newImage.src = imageSource;
     }
   }
 
-  setMaxDimensions(width, height) {
+  setMaxDimensions(width: number, height: number) {
     console.debug(`setMaxDimensions(${width}, ${height})`);
     if (this.image !== null) {
       const curWidth = this.ctx.canvas.width,
@@ -288,8 +291,8 @@ export class CropHost {
     return this.resetCropHost(width, height);
   }
 
-  setAreaMinSize(size) {
-    size = parseInt(size, 10);
+  setAreaMinSize(s) {
+    const size = parseInt(s, 10);
     if (!isNaN(size)) {
       this.cropArea.setMinSize(size);
       this.drawScene();
@@ -314,13 +317,13 @@ export class CropHost {
     }
   }
 
-  setAreaType(type: CropAreaType) {
+  setAreaType(type: FcImgCropAreaType) {
     const curSize = this.cropArea.getSize(),
       curMinSize = this.cropArea.getMinSize(),
       curX = this.cropArea.getX(),
       curY = this.cropArea.getY();
 
-    if (type === CropAreaType.Square) {
+    if (type === FcImgCropAreaType.Square) {
       this.cropArea = new CropAreaSquare(this.ctx, this.events);
     } else {
       this.cropArea = new CropAreaCircle(this.ctx, this.events);
@@ -337,7 +340,7 @@ export class CropHost {
     this.drawScene();
   }
 
-  getAreaDetails() : CropAreaDetails {
+  getAreaDetails() : FcImgCropAreaDetails {
     return {
       x: this.cropArea.getX(),
       y: this.cropArea.getY(),

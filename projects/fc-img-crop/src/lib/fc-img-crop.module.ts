@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 
 import {FcImgCropComponent} from "./fc-img-crop.component";
-export {CropAreaType} from "./classes/crop-area";
+export {FcImgCropAreaType} from "./classes/crop-area";
+export {FcImgCropEvent} from "./classes/crop-pubsub";
 
 @NgModule({
   declarations: [

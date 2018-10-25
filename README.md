@@ -71,7 +71,7 @@ export class YourModule {
 then the components of this module will be able to use the crop component:
 
 ```js
-import {CropAreaDetails, CropAreaType} from "fc-img-crop";
+import {FcImgCropAreaDetails, FcImgCropAreaType} from "fc-img-crop";
 
 @Component({
   selector: 'your-component',
@@ -98,7 +98,7 @@ import {CropAreaDetails, CropAreaType} from "fc-img-crop";
     <p>{{cropDetails | json}}</p>`
 })
 export class YourComponent {
-  type = CropAreaType.Circle;
+  type = FcImgCropAreaType.Circle;
   imageDataURI = '';
   resultImageDataURI = '';
   resultImageFormat = 'image/png';
@@ -107,7 +107,7 @@ export class YourComponent {
   resImgSize = 200;
   edtImageURI: string;
   changeOnFly: boolean;
-  cropDetails: CropAreaDetails;
+  cropDetails: FcImgCropAreaDetails;
 }
 ```
 
@@ -117,11 +117,11 @@ See the test app for the complete example.
 
 ### image
 
-Assignable angular expression to data-bind to. NgImgCrop gets an image for cropping from it.
+Assignable angular expression to data-bind to. FgImgCrop gets an image for cropping from it.
 
 ### resultImage
 
-Assignable angular expression to data-bind to. NgImgCrop puts a data uri of a cropped image into it.
+Assignable angular expression to data-bind to. FgImgCrop puts a data uri of a cropped image into it.
 
 ### changeOnFly
 

@@ -1,4 +1,5 @@
 import {CropArea} from "./crop-area";
+import {FcImgCropEvent} from "./crop-pubsub";
 
 export class CropAreaCircle extends CropArea {
   _boxResizeBaseSize = 20;
@@ -40,11 +41,11 @@ export class CropAreaCircle extends CropArea {
     return this._calcCirclePerimeterCoords(-45);
   }
 
-  _isCoordWithinArea(coord) {
+  private isCoordWithinArea(coord) {
     return Math.sqrt((coord[0] - this._x) * (coord[0] - this._x) + (coord[1] - this._y) * (coord[1] - this._y)) < this._size / 2;
   };
 
-  _isCoordWithinBoxResize(coord) {
+  private isCoordWithinBoxResize(coord) {
     var resizeIconCenterCoords = this._calcResizeIconCenterCoords();
     var hSize = this._boxResizeHoverSize / 2;
     return (coord[0] > resizeIconCenterCoords[0] - hSize && coord[0] < resizeIconCenterCoords[0] + hSize &&
@@ -78,7 +79,7 @@ export class CropAreaCircle extends CropArea {
       this._areaIsHover = true;
       cursor = 'move';
       res = true;
-      this._events.trigger('area-move');
+      this._events.trigger(FcImgCropEvent.AreaMove);
     } else if (this._boxResizeIsDragging) {
       cursor = 'nesw-resize';
       var iFR, iFX, iFY;
@@ -93,13 +94,13 @@ export class CropAreaCircle extends CropArea {
       this._size = Math.max(this._minSize, iFR);
       this._boxResizeIsHover = true;
       res = true;
-      this._events.trigger('area-resize');
-    } else if (this._isCoordWithinBoxResize([mouseCurX, mouseCurY])) {
+      this._events.trigger(FcImgCropEvent.AreaResize);
+    } else if (this.isCoordWithinBoxResize([mouseCurX, mouseCurY])) {
       cursor = 'nesw-resize';
       this._areaIsHover = false;
       this._boxResizeIsHover = true;
       res = true;
-    } else if (this._isCoordWithinArea([mouseCurX, mouseCurY])) {
+    } else if (this.isCoordWithinArea([mouseCurX, mouseCurY])) {
       cursor = 'move';
       this._areaIsHover = true;
       res = true;
@@ -112,7 +113,7 @@ export class CropAreaCircle extends CropArea {
   };
 
   processMouseDown(mouseDownX: number, mouseDownY: number) {
-    if (this._isCoordWithinBoxResize([mouseDownX, mouseDownY])) {
+    if (this.isCoordWithinBoxResize([mouseDownX, mouseDownY])) {
       this._areaIsDragging = false;
       this._areaIsHover = false;
       this._boxResizeIsDragging = true;
@@ -120,26 +121,26 @@ export class CropAreaCircle extends CropArea {
       this._posResizeStartX = mouseDownX;
       this._posResizeStartY = mouseDownY;
       this._posResizeStartSize = this._size;
-      this._events.trigger('area-resize-start');
-    } else if (this._isCoordWithinArea([mouseDownX, mouseDownY])) {
+      this._events.trigger(FcImgCropEvent.AreaResizeStart);
+    } else if (this.isCoordWithinArea([mouseDownX, mouseDownY])) {
       this._areaIsDragging = true;
       this._areaIsHover = true;
       this._boxResizeIsDragging = false;
       this._boxResizeIsHover = false;
       this._posDragStartX = mouseDownX - this._x;
       this._posDragStartY = mouseDownY - this._y;
-      this._events.trigger('area-move-start');
+      this._events.trigger(FcImgCropEvent.AreaMoveStart);
     }
   };
 
   processMouseUp(/*mouseUpX, mouseUpY*/) {
     if (this._areaIsDragging) {
       this._areaIsDragging = false;
-      this._events.trigger('area-move-end');
+      this._events.trigger(FcImgCropEvent.AreaMoveEnd);
     }
     if (this._boxResizeIsDragging) {
       this._boxResizeIsDragging = false;
-      this._events.trigger('area-resize-end');
+      this._events.trigger(FcImgCropEvent.AreaResizeEnd);
     }
     this._areaIsHover = false;
     this._boxResizeIsHover = false;

@@ -1,4 +1,5 @@
 import {CropArea} from "./crop-area";
+import {FcImgCropEvent} from "./crop-pubsub";
 
 export class CropAreaSquare extends CropArea {
     _resizeCtrlBaseRadius = 10;
@@ -99,7 +100,7 @@ export class CropAreaSquare extends CropArea {
             this._areaIsHover = true;
             cursor = 'move';
             res = true;
-            this._events.trigger('area-move');
+            this._events.trigger(FcImgCropEvent.AreaMove);
         } else if (this._resizeCtrlIsDragging > -1) {
             var xMulti, yMulti;
             switch (this._resizeCtrlIsDragging) {
@@ -139,7 +140,7 @@ export class CropAreaSquare extends CropArea {
             this._y += posModifier * yMulti;
             this._resizeCtrlIsHover = this._resizeCtrlIsDragging;
             res = true;
-            this._events.trigger('area-resize');
+            this._events.trigger(FcImgCropEvent.AreaResize);
         } else {
             var hoveredResizeBox = this._isCoordWithinResizeCtrl([mouseCurX, mouseCurY]);
             if (hoveredResizeBox > -1) {
@@ -183,7 +184,7 @@ export class CropAreaSquare extends CropArea {
             this._posResizeStartX = mouseDownX;
             this._posResizeStartY = mouseDownY;
             this._posResizeStartSize = this._size;
-            this._events.trigger('area-resize-start');
+            this._events.trigger(FcImgCropEvent.AreaResizeStart);
         } else if (this._isCoordWithinArea([mouseDownX, mouseDownY])) {
             this._areaIsDragging = true;
             this._areaIsHover = true;
@@ -191,18 +192,18 @@ export class CropAreaSquare extends CropArea {
             this._resizeCtrlIsHover = -1;
             this._posDragStartX = mouseDownX - this._x;
             this._posDragStartY = mouseDownY - this._y;
-            this._events.trigger('area-move-start');
+            this._events.trigger(FcImgCropEvent.AreaMoveStart);
         }
     }
 
     processMouseUp(/*mouseUpX, mouseUpY*/) {
         if (this._areaIsDragging) {
             this._areaIsDragging = false;
-            this._events.trigger('area-move-end');
+            this._events.trigger(FcImgCropEvent.AreaMoveEnd);
         }
         if (this._resizeCtrlIsDragging > -1) {
             this._resizeCtrlIsDragging = -1;
-            this._events.trigger('area-resize-end');
+            this._events.trigger(FcImgCropEvent.AreaResizeEnd);
         }
         this._areaIsHover = false;
         this._resizeCtrlIsHover = -1;
